@@ -1,7 +1,7 @@
 {
     "$comment": "Generated file (source: http://www.llrp.org/ltk/schema/core/encoding/binary/1.0)",
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "$id": "http://llrpjs.github.com/schema/core/encoding/json/1.0",
+    "$id": "https://llrpjs.github.io/schema/core/encoding/json/1.0/llrp-1x0.schema.json",
     "title": "LLRP Message Schema",
     "description": "Low-Level Reader Protocol (LLRP) Message Schema",
     "definitions": {
