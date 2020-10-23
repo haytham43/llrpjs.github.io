@@ -1,0 +1,4744 @@
+{
+    "$comment": "Generated file (source: http://www.llrp.org/ltk/schema/core/encoding/binary/1.0)",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "http://llrpjs.github.com/schema/core/encoding/json/1.0",
+    "title": "LLRP Message Schema",
+    "description": "Low-Level Reader Protocol (LLRP) Message Schema",
+    "definitions": {
+        "types": {
+            "u1": {
+                "oneOf": [
+                    {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 1
+                    },
+                    {
+                        "type": "boolean"
+                    }
+                ]
+            },
+            "u2": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 3
+            },
+            "u1v": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/definitions/types/u1"
+                }
+            },
+            "u8": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 255
+            },
+            "u8v": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/definitions/types/u8"
+                }
+            },
+            "s8": {
+                "type": "integer",
+                "minimum": -128,
+                "maximum": 127
+            },
+            "s8v": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/definitions/types/s8"
+                }
+            },
+            "u16": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 65535
+            },
+            "s16": {
+                "type": "integer",
+                "minimum": -32768,
+                "maximum": 32767
+            },
+            "u16v": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/definitions/types/u16"
+                }
+            },
+            "s16v": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/definitions/types/s16"
+                }
+            },
+            "u32": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 4294967295
+            },
+            "s32": {
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+            },
+            "u32v": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/definitions/types/u32"
+                }
+            },
+            "s32v": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/definitions/types/s32"
+                }
+            },
+            "u64": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 18446744073709551615
+            },
+            "s64": {
+                "type": "integer",
+                "minimum": -9223372036854775808,
+                "maximum": 9223372036854775807
+            },
+            "u64v": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/definitions/types/u64"
+                }
+            },
+            "s64v": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/definitions/types/s64"
+                }
+            },
+            "u96": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/definitions/types/u8"
+                },
+                "maxItems": 12
+            },
+            "u96Hexstring": {
+                "type": "string",
+                "minLength": 24,
+                "maxLength": 24,
+                "pattern": "^[a-fA-F0-9]+$"
+            },
+            "hexstring": {
+                "type": "string",
+                "minLength": 2,
+                "maxLength": 131072,
+                "pattern": "^[a-fA-F0-9]+$"
+            },
+            "datetime": {
+                "type": "string",
+                "format": "date-time"
+            },
+            "bytesToEnd": {
+                "$ref": "#/definitions/types/u8v"
+            }
+        },
+        "message": {
+            "type": "object",
+            "properties": {
+                "MessageID": {
+                    "$ref": "#/definitions/types/u32"
+                },
+                "MessageType": {
+                    "type": "string",
+                    "enum": [
+                        "CUSTOM_MESSAGE",
+                        "GET_READER_CAPABILITIES",
+                        "GET_READER_CAPABILITIES_RESPONSE",
+                        "ADD_ROSPEC",
+                        "ADD_ROSPEC_RESPONSE",
+                        "DELETE_ROSPEC",
+                        "DELETE_ROSPEC_RESPONSE",
+                        "START_ROSPEC",
+                        "START_ROSPEC_RESPONSE",
+                        "STOP_ROSPEC",
+                        "STOP_ROSPEC_RESPONSE",
+                        "ENABLE_ROSPEC",
+                        "ENABLE_ROSPEC_RESPONSE",
+                        "DISABLE_ROSPEC",
+                        "DISABLE_ROSPEC_RESPONSE",
+                        "GET_ROSPECS",
+                        "GET_ROSPECS_RESPONSE",
+                        "ADD_ACCESSSPEC",
+                        "ADD_ACCESSSPEC_RESPONSE",
+                        "DELETE_ACCESSSPEC",
+                        "DELETE_ACCESSSPEC_RESPONSE",
+                        "ENABLE_ACCESSSPEC",
+                        "ENABLE_ACCESSSPEC_RESPONSE",
+                        "DISABLE_ACCESSSPEC",
+                        "DISABLE_ACCESSSPEC_RESPONSE",
+                        "GET_ACCESSSPECS",
+                        "GET_ACCESSSPECS_RESPONSE",
+                        "GET_READER_CONFIG",
+                        "GET_READER_CONFIG_RESPONSE",
+                        "SET_READER_CONFIG",
+                        "SET_READER_CONFIG_RESPONSE",
+                        "CLOSE_CONNECTION",
+                        "CLOSE_CONNECTION_RESPONSE",
+                        "GET_REPORT",
+                        "RO_ACCESS_REPORT",
+                        "KEEPALIVE",
+                        "KEEPALIVE_ACK",
+                        "READER_EVENT_NOTIFICATION",
+                        "ENABLE_EVENTS_AND_REPORTS",
+                        "ERROR_MESSAGE"
+                    ]
+                },
+                "MessageBody": {
+                    "type": "object"
+                }
+            },
+            "required": [
+                "MessageID",
+                "MessageType",
+                "MessageBody"
+            ]
+        },
+        "parameters": {
+            "UTCTimestamp": {
+                "type": "object",
+                "properties": {
+                    "Microseconds": {
+                        "$ref": "#/definitions/types/datetime"
+                    }
+                },
+                "required": [
+                    "Microseconds"
+                ]
+            },
+            "Uptime": {
+                "type": "object",
+                "properties": {
+                    "Microseconds": {
+                        "$ref": "#/definitions/types/u64"
+                    }
+                },
+                "required": [
+                    "Microseconds"
+                ]
+            },
+            "Custom": {
+                "type": "object",
+                "properties": {
+                    "VendorIdentifier": {
+                        "$ref": "#/definitions/types/u32"
+                    },
+                    "ParameterSubtype": {
+                        "$ref": "#/definitions/types/u32"
+                    },
+                    "Data": {
+                        "$ref": "#/definitions/types/hexstring"
+                    }
+                },
+                "required": [
+                    "VendorIdentifier",
+                    "ParameterSubtype",
+                    "Data"
+                ]
+            },
+            "GeneralDeviceCapabilities": {
+                "type": "object",
+                "properties": {
+                    "MaxNumberOfAntennaSupported": {
+                        "$ref": "#/definitions/types/u16"
+                    },
+                    "CanSetAntennaProperties": {
+                        "$ref": "#/definitions/types/u1"
+                    },
+                    "HasUTCClockCapability": {
+                        "$ref": "#/definitions/types/u1"
+                    },
+                    "DeviceManufacturerName": {
+                        "$ref": "#/definitions/types/u32"
+                    },
+                    "ModelName": {
+                        "$ref": "#/definitions/types/u32"
+                    },
+                    "ReaderFirmwareVersion": {
+                        "type": "string"
+                    },
+                    "ReceiveSensitivityTableEntry": {
+                        "if": {
+                            "type": "array"
+                        },
+                        "then": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/parameters/ReceiveSensitivityTableEntry"
+                            }
+                        },
+                        "else": {
+                            "$ref": "#/definitions/parameters/ReceiveSensitivityTableEntry"
+                        }
+                    },
+                    "PerAntennaReceiveSensitivityRange": {
+                        "if": {
+                            "type": "array"
+                        },
+                        "then": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/parameters/PerAntennaReceiveSensitivityRange"
+                            }
+                        },
+                        "else": {
+                            "$ref": "#/definitions/parameters/PerAntennaReceiveSensitivityRange"
+                        }
+                    },
+                    "GPIOCapabilities": {
+                        "$ref": "#/definitions/parameters/GPIOCapabilities"
+                    },
+                    "PerAntennaAirProtocol": {
+                        "if": {
+                            "type": "array"
+                        },
+                        "then": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/parameters/PerAntennaAirProtocol"
+                            }
+                        },
+                        "else": {
+                            "$ref": "#/definitions/parameters/PerAntennaAirProtocol"
+                        }
+                    }
+                },
+                "required": [
+                    "MaxNumberOfAntennaSupported",
+                    "CanSetAntennaProperties",
+                    "HasUTCClockCapability",
+                    "DeviceManufacturerName",
+                    "ModelName",
+                    "ReaderFirmwareVersion",
+                    "ReceiveSensitivityTableEntry",
+                    "GPIOCapabilities",
+                    "PerAntennaAirProtocol"
+                ]
+            },
+            "ReceiveSensitivityTableEntry": {
+                "type": "object",
+                "properties": {
+                    "Index": {
+                        "$ref": "#/definitions/types/u16"
+                    },
+                    "ReceiveSensitivityValue": {
+                        "$ref": "#/definitions/types/s16"
+                    }
+                },
+                "required": [
+                    "Index",
+                    "ReceiveSensitivityValue"
+                ]
+            },
+            "PerAntennaReceiveSensitivityRange": {
+                "type": "object",
+                "properties": {
+                    "AntennaID": {
+                        "$ref": "#/definitions/types/u16"
+                    },
+                    "ReceiveSensitivityIndexMin": {
+                        "$ref": "#/definitions/types/u16"
+                    },
+                    "ReceiveSensitivityIndexMax": {
+                        "$ref": "#/definitions/types/u16"
+                    }
+                },
+                "required": [
+                    "AntennaID",
+                    "ReceiveSensitivityIndexMin",
+                    "ReceiveSensitivityIndexMax"
+                ]
+            },
+            "PerAntennaAirProtocol": {
+                "type": "object",
+                "properties": {
+                    "AntennaID": {
+                        "$ref": "#/definitions/types/u16"
+                    },
+                    "ProtocolID": {
+                        "$ref": "#/definitions/enumerations/AirProtocols"
+                    }
+                },
+                "required": [
+                    "AntennaID",
+                    "ProtocolID"
+                ]
+            },
+            "GPIOCapabilities": {
+                "type": "object",
+                "properties": {
+                    "NumGPIs": {
+                        "$ref": "#/definitions/types/u16"
+                    },
+                    "NumGPOs": {
+                        "$ref": "#/definitions/types/u16"
+                    }
+                },
+                "required": [
+                    "NumGPIs",
+                    "NumGPOs"
+                ]
+            },
+            "LLRPCapabilities": {
+                "type": "object",
+                "properties": {
+                    "CanDoRFSurvey": {
+                        "$ref": "#/definitions/types/u1"
+                    },
+                    "CanReportBufferFillWarning": {
+                        "$ref": "#/definitions/types/u1"
+                    },
+                    "SupportsClientRequestOpSpec": {
+                        "$ref": "#/definitions/types/u1"
+                    },
+                    "CanDoTagInventoryStateAwareSingulation": {
+                        "$ref": "#/definitions/types/u1"
+                    },
+                    "SupportsEventAndReportHolding": {
+                        "$ref": "#/definitions/types/u1"
+                    },
+                    "MaxNumPriorityLevelsSupported": {
+                        "$ref": "#/definitions/types/u8"
+                    },
+                    "ClientRequestOpSpecTimeout": {
+                        "$ref": "#/definitions/types/u16"
+                    },
+                    "MaxNumROSpecs": {
+                        "$ref": "#/definitions/types/u32"
+                    },
+                    "MaxNumSpecsPerROSpec": {
+                        "$ref": "#/definitions/types/u32"
+                    },
+                    "MaxNumInventoryParameterSpecsPerAISpec": {
+                        "$ref": "#/definitions/types/u32"
+                    },
+                    "MaxNumAccessSpecs": {
+                        "$ref": "#/definitions/types/u32"
+                    },
+                    "MaxNumOpSpecsPerAccessSpec": {
+                        "$ref": "#/definitions/types/u32"
+                    }
+                },
+                "required": [
+                    "CanDoRFSurvey",
+                    "CanReportBufferFillWarning",
+                    "SupportsClientRequestOpSpec",
+                    "CanDoTagInventoryStateAwareSingulation",
+                    "SupportsEventAndReportHolding",
+                    "MaxNumPriorityLevelsSupported",
+                    "ClientRequestOpSpecTimeout",
+                    "MaxNumROSpecs",
+                    "MaxNumSpecsPerROSpec",
+                    "MaxNumInventoryParameterSpecsPerAISpec",
+                    "MaxNumAccessSpecs",
+                    "MaxNumOpSpecsPerAccessSpec"
+                ]
+            },
+            "RegulatoryCapabilities": {
+                "type": "object",
+                "properties": {
+                    "CountryCode": {
+                        "$ref": "#/definitions/types/u16"
+                    },
+                    "CommunicationsStandard": {
+                        "$ref": "#/definitions/enumerations/CommunicationsStandard"
+                    },
+                    "UHFBandCapabilities": {
+                        "$ref": "#/definitions/parameters/UHFBandCapabilities"
+                    },
+                    "Custom": {
+                        "if": {
+                            "type": "array"
+                        },
+                        "then": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/parameters/Custom"
+                            }
+                        },
+                        "else": {
+                            "$ref": "#/definitions/parameters/Custom"
+                        }
+                    }
+                },
+                "required": [
+                    "CountryCode",
+                    "CommunicationsStandard"
+                ]
+            },
+            "UHFBandCapabilities": {
+                "type": "object",
+                "properties": {
+                    "TransmitPowerLevelTableEntry": {
+                        "if": {
+                            "type": "array"
+                        },
+                        "then": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/parameters/TransmitPowerLevelTableEntry"
+                            }
+                        },
+                        "else": {
+                            "$ref": "#/definitions/parameters/TransmitPowerLevelTableEntry"
+                        }
+                    },
+                    "FrequencyInformation": {
+                        "$ref": "#/definitions/parameters/FrequencyInformation"
+                    },
+                    "C1G2UHFRFModeTable": {
+                        "if": {
+                            "type": "array"
+                        },
+                        "then": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/parameters/C1G2UHFRFModeTable"
+                            }
+                        },
+                        "else": {
+                            "$ref": "#/definitions/parameters/C1G2UHFRFModeTable"
+                        }
+                    }
+                },
+                "required": [
+                    "TransmitPowerLevelTableEntry",
+                    "FrequencyInformation"
+                ],
+                "allOf": [
+                    {
+                        "oneOf": [
+                            {
+                                "required": [
+                                    "C1G2UHFRFModeTable"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            "TransmitPowerLevelTableEntry": {
+                "type": "object",
+                "properties": {
+                    "Index": {
+                        "$ref": "#/definitions/types/u16"
+                    },
+                    "TransmitPowerValue": {
+                        "$ref": "#/definitions/types/s16"
+                    }
+                },
+                "required": [
+                    "Index",
+                    "TransmitPowerValue"
+                ]
+            },
+            "FrequencyInformation": {
+                "type": "object",
+                "properties": {
+                    "Hopping": {
+                        "$ref": "#/definitions/types/u1"
+                    },
+                    "FrequencyHopTable": {
+                        "if": {
+                            "type": "array"
+                        },
+                        "then": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/parameters/FrequencyHopTable"
+                            }
+                        },
+                        "else": {
+                            "$ref": "#/definitions/parameters/FrequencyHopTable"
+                        }
+                    },
+                    "FixedFrequencyTable": {
+                        "$ref": "#/definitions/parameters/FixedFrequencyTable"
+                    }
+                },
+                "required": [
+                    "Hopping"
+                ]
+            },
+            "FrequencyHopTable": {
+                "type": "object",
+                "properties": {
+                    "HopTableID": {
+                        "$ref": "#/definitions/types/u8"
+                    },
+                    "Frequency": {
+                        "$ref": "#/definitions/types/u32v"
+                    }
+                },
+                "required": [
+                    "HopTableID",
+                    "Frequency"
+                ]
+            },
+            "FixedFrequencyTable": {
+                "type": "object",
+                "properties": {
+                    "Frequency": {
+                        "$ref": "#/definitions/types/u32v"
+                    }
+                },
+                "required": [
+                    "Frequency"
+                ]
+            },
+            "ROSpec": {
+                "type": "object",
+                "properties": {
+                    "ROSpecID": {
+                        "$ref": "#/definitions/types/u32"
+                    },
+                    "Priority": {
+                        "$ref": "#/definitions/types/u8"
+                    },
+                    "CurrentState": {
+                        "$ref": "#/definitions/enumerations/ROSpecState"
+                    },
+                    "ROBoundarySpec": {
+                        "$ref": "#/definitions/parameters/ROBoundarySpec"
+                    },
+                    "AISpec": {
+                        "if": {
+                            "type": "array"
+                        },
+                        "then": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/parameters/AISpec"
+                            }
+                        },
+                        "else": {
+                            "$ref": "#/definitions/parameters/AISpec"
+                        }
+                    },
+                    "RFSurveySpec": {
+                        "if": {
+                            "type": "array"
+                        },
+                        "then": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/parameters/RFSurveySpec"
+                            }
+                        },
+                        "else": {
+                            "$ref": "#/definitions/parameters/RFSurveySpec"
+                        }
+                    },
+                    "ROReportSpec": {
+                        "$ref": "#/definitions/parameters/ROReportSpec"
+                    }
+                },
+                "required": [
+                    "ROSpecID",
+                    "Priority",
+                    "CurrentState",
+                    "ROBoundarySpec"
+                ],
+                "allOf": [
+                    {
+                        "oneOf": [
+                            {
+                                "required": [
+                                    "AISpec"
+                                ]
+                            },
+                            {
+                                "required": [
+                                    "RFSurveySpec"
+                                ]
+                            },
+                            {
+                                "required": [
+                                    "Custom"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            "ROBoundarySpec": {
+                "type": "object",
+                "properties": {
+                    "ROSpecStartTrigger": {
+                        "$ref": "#/definitions/parameters/ROSpecStartTrigger"
+                    },
+                    "ROSpecStopTrigger": {
+                        "$ref": "#/definitions/parameters/ROSpecStopTrigger"
+                    }
+                },
+                "required": [
+                    "ROSpecStartTrigger",
+                    "ROSpecStopTrigger"
+                ]
+            },
+            "ROSpecStartTrigger": {
+                "type": "object",
+                "properties": {
+                    "ROSpecStartTriggerType": {
+                        "$ref": "#/definitions/enumerations/ROSpecStartTriggerType"
+                    },
+                    "PeriodicTriggerValue": {
+                        "$ref": "#/definitions/parameters/PeriodicTriggerValue"
+                    },
+                    "GPITriggerValue": {
+                        "$ref": "#/definitions/parameters/GPITriggerValue"
+                    }
+                },
+                "required": [
+                    "ROSpecStartTriggerType"
+                ]
+            },
+            "PeriodicTriggerValue": {
+                "type": "object",
+                "properties": {
+                    "Offset": {
+                        "$ref": "#/definitions/types/u32"
+                    },
+                    "Period": {
+                        "$ref": "#/definitions/types/u32"
+                    },
+                    "UTCTimestamp": {
+                        "$ref": "#/definitions/parameters/UTCTimestamp"
+                    }
+                },
+                "required": [
+                    "Offset",
+                    "Period"
+                ]
+            },
+            "GPITriggerValue": {
+                "type": "object",
+                "properties": {
+                    "GPIPortNum": {
+                        "$ref": "#/definitions/types/u16"
+                    },
+                    "GPIEvent": {
+                        "$ref": "#/definitions/types/u1"
+                    },
+                    "Timeout": {
+                        "$ref": "#/definitions/types/u32"
+                    }
+                },
+                "required": [
+                    "GPIPortNum",
+                    "GPIEvent",
+                    "Timeout"
+                ]
+            },
+            "ROSpecStopTrigger": {
+                "type": "object",
+                "properties": {
+                    "ROSpecStopTriggerType": {
+                        "$ref": "#/definitions/enumerations/ROSpecStopTriggerType"
+                    },
+                    "DurationTriggerValue": {
+                        "$ref": "#/definitions/types/u32"
+                    },
+                    "GPITriggerValue": {
+                        "$ref": "#/definitions/parameters/GPITriggerValue"
+                    }
+                },
+                "required": [
+                    "ROSpecStopTriggerType",
+                    "DurationTriggerValue"
+                ]
+            },
+            "AISpec": {
+                "type": "object",
+                "properties": {
+                    "AntennaIDs": {
+                        "$ref": "#/definitions/types/u16v"
+                    },
+                    "AISpecStopTrigger": {
+                        "$ref": "#/definitions/parameters/AISpecStopTrigger"
+                    },
+                    "InventoryParameterSpec": {
+                        "if": {
+                            "type": "array"
+                        },
+                        "then": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/parameters/InventoryParameterSpec"
+                            }
+                        },
+                        "else": {
+                            "$ref": "#/definitions/parameters/InventoryParameterSpec"
+                        }
+                    },
+                    "Custom": {
+                        "if": {
+                            "type": "array"
+                        },
+                        "then": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/parameters/Custom"
+                            }
+                        },
+                        "else": {
+                            "$ref": "#/definitions/parameters/Custom"
+                        }
+                    }
+                },
+                "required": [
+                    "AntennaIDs",
+                    "AISpecStopTrigger",
+                    "InventoryParameterSpec"
+                ]
+            },
+            "AISpecStopTrigger": {
+                "type": "object",
+                "properties": {
+                    "AISpecStopTriggerType": {
+                        "$ref": "#/definitions/enumerations/AISpecStopTriggerType"
+                    },
+                    "DurationTrigger": {
+                        "$ref": "#/definitions/types/u32"
+                    },
+                    "GPITriggerValue": {
+                        "$ref": "#/definitions/parameters/GPITriggerValue"
+                    },
+                    "TagObservationTrigger": {
+                        "$ref": "#/definitions/parameters/TagObservationTrigger"
+                    }
+                },
+                "required": [
+                    "AISpecStopTriggerType",
+                    "DurationTrigger"
+                ]
+            },
+            "TagObservationTrigger": {
+                "type": "object",
+                "properties": {
+                    "TriggerType": {
+                        "$ref": "#/definitions/enumerations/TagObservationTriggerType"
+                    },
+                    "NumberOfTags": {
+                        "$ref": "#/definitions/types/u16"
+                    },
+                    "NumberOfAttempts": {
+                        "$ref": "#/definitions/types/u16"
+                    },
+                    "T": {
+                        "$ref": "#/definitions/types/u16"
+                    },
+                    "Timeout": {
+                        "$ref": "#/definitions/types/u32"
+                    }
+                },
+                "required": [
+                    "TriggerType",
+                    "NumberOfTags",
+                    "NumberOfAttempts",
+                    "T",
+                    "Timeout"
+                ]
+            },
+            "InventoryParameterSpec": {
+                "type": "object",
+                "properties": {
+                    "InventoryParameterSpecID": {
+                        "$ref": "#/definitions/types/u16"
+                    },
+                    "ProtocolID": {
+                        "$ref": "#/definitions/enumerations/AirProtocols"
+                    },
+                    "AntennaConfiguration": {
+                        "if": {
+                            "type": "array"
+                        },
+                        "then": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/parameters/AntennaConfiguration"
+                            }
+                        },
+                        "else": {
+                            "$ref": "#/definitions/parameters/AntennaConfiguration"
+                        }
+                    },
+                    "Custom": {
+                        "if": {
+                            "type": "array"
+                        },
+                        "then": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/parameters/Custom"
+                            }
+                        },
+                        "else": {
+                            "$ref": "#/definitions/parameters/Custom"
+                        }
+                    }
+                },
+                "required": [
+                    "InventoryParameterSpecID",
+                    "ProtocolID"
+                ]
+            },
+            "RFSurveySpec": {
+                "type": "object",
+                "properties": {
+                    "AntennaID": {
+                        "$ref": "#/definitions/types/u16"
+                    },
+                    "StartFrequency": {
+                        "$ref": "#/definitions/types/u32"
+                    },
+                    "EndFrequency": {
+                        "$ref": "#/definitions/types/u32"
+                    },
+                    "RFSurveySpecStopTrigger": {
+                        "$ref": "#/definitions/parameters/RFSurveySpecStopTrigger"
+                    },
+                    "Custom": {
+                        "if": {
+                            "type": "array"
+                        },
+                        "then": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/parameters/Custom"
+                            }
+                        },
+                        "else": {
+                            "$ref": "#/definitions/parameters/Custom"
+                        }
+                    }
+                },
+                "required": [
+                    "AntennaID",
+                    "StartFrequency",
+                    "EndFrequency",
+                    "RFSurveySpecStopTrigger"
+                ]
+            },
+            "RFSurveySpecStopTrigger": {
+                "type": "object",
+                "properties": {
+                    "StopTriggerType": {
+                        "$ref": "#/definitions/enumerations/RFSurveySpecStopTriggerType"
+                    },
+                    "DurationPeriod": {
+                        "$ref": "#/definitions/types/u32"
+                    },
+                    "N": {
+                        "$ref": "#/definitions/types/u32"
+                    }
+                },
+                "required": [
+                    "StopTriggerType",
+                    "DurationPeriod",
+                    "N"
+                ]
+            },
+            "AccessSpec": {
+                "type": "object",
+                "properties": {
+                    "AccessSpecID": {
+                        "$ref": "#/definitions/types/u32"
+                    },
+                    "AntennaID": {
+                        "$ref": "#/definitions/types/u16"
+                    },
+                    "ProtocolID": {
+                        "$ref": "#/definitions/enumerations/AirProtocols"
+                    },
+                    "CurrentState": {
+                        "$ref": "#/definitions/enumerations/AccessSpecState"
+                    },
+                    "ROSpecID": {
+                        "$ref": "#/definitions/types/u32"
+                    },
+                    "AccessSpecStopTrigger": {
+                        "$ref": "#/definitions/parameters/AccessSpecStopTrigger"
+                    },
+                    "AccessCommand": {
+                        "$ref": "#/definitions/parameters/AccessCommand"
+                    },
+                    "AccessReportSpec": {
+                        "$ref": "#/definitions/parameters/AccessReportSpec"
+                    },
+                    "Custom": {
+                        "if": {
+                            "type": "array"
+                        },
+                        "then": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/parameters/Custom"
+                            }
+                        },
+                        "else": {
+                            "$ref": "#/definitions/parameters/Custom"
+                        }
+                    }
+                },
+                "required": [
+                    "AccessSpecID",
+                    "AntennaID",
+                    "ProtocolID",
+                    "CurrentState",
+                    "ROSpecID",
+                    "AccessSpecStopTrigger",
+                    "AccessCommand"
+                ]
+            },
+            "AccessSpecStopTrigger": {
+                "type": "object",
+                "properties": {
+                    "AccessSpecStopTrigger": {
+                        "$ref": "#/definitions/enumerations/AccessSpecStopTriggerType"
+                    },
+                    "OperationCountValue": {
+                        "$ref": "#/definitions/types/u16"
+                    }
+                },
+                "required": [
+                    "AccessSpecStopTrigger",
+                    "OperationCountValue"
+                ]
+            },
+            "AccessCommand": {
+                "type": "object",
+                "properties": {
+                    "C1G2TagSpec": {
+                        "$ref": "#/definitions/parameters/C1G2TagSpec"
+                    },
+                    "C1G2Read": {
+                        "if": {
+                            "type": "array"
+                        },
+                        "then": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/parameters/C1G2Read"
+                            }
+                        },
+                        "else": {
+                            "$ref": "#/definitions/parameters/C1G2Read"
+                        }
+                    },
+                    "C1G2Write": {
+                        "if": {
+                            "type": "array"
+                        },
+                        "then": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/parameters/C1G2Write"
+                            }
+                        },
+                        "else": {
+                            "$ref": "#/definitions/parameters/C1G2Write"
+                        }
+                    },
+                    "C1G2Kill": {
+                        "if": {
+                            "type": "array"
+                        },
+                        "then": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/parameters/C1G2Kill"
+                            }
+                        },
+                        "else": {
+                            "$ref": "#/definitions/parameters/C1G2Kill"
+                        }
+                    },
+                    "C1G2Lock": {
+                        "if": {
+                            "type": "array"
+                        },
+                        "then": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/parameters/C1G2Lock"
+                            }
+                        },
+                        "else": {
+                            "$ref": "#/definitions/parameters/C1G2Lock"
+                        }
+                    },
+                    "C1G2BlockErase": {
+                        "if": {
+                            "type": "array"
+                        },
+                        "then": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/parameters/C1G2BlockErase"
+                            }
+                        },
+                        "else": {
+                            "$ref": "#/definitions/parameters/C1G2BlockErase"
+                        }
+                    },
+                    "C1G2BlockWrite": {
+                        "if": {
+                            "type": "array"
+                        },
+                        "then": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/parameters/C1G2BlockWrite"
+                            }
+                        },
+                        "else": {
+                            "$ref": "#/definitions/parameters/C1G2BlockWrite"
+                        }
+                    },
+                    "Custom": {
+                        "if": {
+                            "type": "array"
+                        },
+                        "then": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/parameters/Custom"
+                            }
+                        },
+                        "else": {
+                            "$ref": "#/definitions/parameters/Custom"
+                        }
+                    }
+                },
+                "allOf": [
+                    {
+                        "oneOf": [
+                            {
+                                "required": [
+                                    "C1G2TagSpec"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "oneOf": [
+                            {
+                                "required": [
+                                    "C1G2Read"
+                                ]
+                            },
+                            {
+                                "required": [
+                                    "C1G2Write"
+                                ]
+                            },
+                            {
+                                "required": [
+                                    "C1G2Kill"
+                                ]
+                            },
+                            {
+                                "required": [
+                                    "C1G2Lock"
+                                ]
+                            },
+                            {
+                                "required": [
+                                    "C1G2BlockErase"
+                                ]
+                            },
+                            {
+                                "required": [
+                                    "C1G2BlockWrite"
+                                ]
+                            },
+                            {
+                                "required": [
+                                    "Custom"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            "LLRPConfigurationStateValue": {
+                "type": "object",
+                "properties": {
+                    "LLRPConfigurationStateValue": {
+                        "$ref": "#/definitions/types/u32"
+                    }
+                },
+                "required": [
+                    "LLRPConfigurationStateValue"
+                ]
+            },
+            "Identification": {
+                "type": "object",
+                "properties": {
+                    "IDType": {
+                        "$ref": "#/definitions/enumerations/IdentificationType"
+                    },
+                    "ReaderID": {
+                        "$ref": "#/definitions/types/hexstring"
+                    }
+                },
+                "required": [
+                    "IDType",
+                    "ReaderID"
+                ]
+            },
+            "GPOWriteData": {
+                "type": "object",
+                "properties": {
+                    "GPOPortNumber": {
+                        "$ref": "#/definitions/types/u16"
+                    },
+                    "GPOData": {
+                        "$ref": "#/definitions/types/u1"
+                    }
+                },
+                "required": [
+                    "GPOPortNumber",
+                    "GPOData"
+                ]
+            },
+            "KeepaliveSpec": {
+                "type": "object",
+                "properties": {
+                    "KeepaliveTriggerType": {
+                        "$ref": "#/definitions/enumerations/KeepaliveTriggerType"
+                    },
+                    "PeriodicTriggerValue": {
+                        "$ref": "#/definitions/types/u32"
+                    }
+                },
+                "required": [
+                    "KeepaliveTriggerType",
+                    "PeriodicTriggerValue"
+                ]
+            },
+            "AntennaProperties": {
+                "type": "object",
+                "properties": {
+                    "AntennaConnected": {
+                        "$ref": "#/definitions/types/u1"
+                    },
+                    "AntennaID": {
+                        "$ref": "#/definitions/types/u16"
+                    },
+                    "AntennaGain": {
+                        "$ref": "#/definitions/types/s16"
+                    }
+                },
+                "required": [
+                    "AntennaConnected",
+                    "AntennaID",
+                    "AntennaGain"
+                ]
+            },
+            "AntennaConfiguration": {
+                "type": "object",
+                "properties": {
+                    "AntennaID": {
+                        "$ref": "#/definitions/types/u16"
+                    },
+                    "RFReceiver": {
+                        "$ref": "#/definitions/parameters/RFReceiver"
+                    },
+                    "RFTransmitter": {
+                        "$ref": "#/definitions/parameters/RFTransmitter"
+                    },
+                    "C1G2InventoryCommand": {
+                        "if": {
+                            "type": "array"
+                        },
+                        "then": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/parameters/C1G2InventoryCommand"
+                            }
+                        },
+                        "else": {
+                            "$ref": "#/definitions/parameters/C1G2InventoryCommand"
+                        }
+                    }
+                },
+                "required": [
+                    "AntennaID"
+                ]
+            },
+            "RFReceiver": {
+                "type": "object",
+                "properties": {
+                    "ReceiverSensitivity": {
+                        "$ref": "#/definitions/types/u16"
+                    }
+                },
+                "required": [
+                    "ReceiverSensitivity"
+                ]
+            },
+            "RFTransmitter": {
+                "type": "object",
+                "properties": {
+                    "HopTableID": {
+                        "$ref": "#/definitions/types/u16"
+                    },
+                    "ChannelIndex": {
+                        "$ref": "#/definitions/types/u16"
+                    },
+                    "TransmitPower": {
+                        "$ref": "#/definitions/types/u16"
+                    }
+                },
+                "required": [
+                    "HopTableID",
+                    "ChannelIndex",
+                    "TransmitPower"
+                ]
+            },
+            "GPIPortCurrentState": {
+                "type": "object",
+                "properties": {
+                    "GPIPortNum": {
+                        "$ref": "#/definitions/types/u16"
+                    },
+                    "Config": {
+                        "$ref": "#/definitions/types/u1"
+                    },
+                    "State": {
+                        "$ref": "#/definitions/enumerations/GPIPortState"
+                    }
+                },
+                "required": [
+                    "GPIPortNum",
+                    "Config",
+                    "State"
+                ]
+            },
+            "EventsAndReports": {
+                "type": "object",
+                "properties": {
+                    "HoldEventsAndReportsUponReconnect": {
+                        "$ref": "#/definitions/types/u1"
+                    }
+                },
+                "required": [
+                    "HoldEventsAndReportsUponReconnect"
+                ]
+            },
+            "ROReportSpec": {
+                "type": "object",
+                "properties": {
+                    "ROReportTrigger": {
+                        "$ref": "#/definitions/enumerations/ROReportTriggerType"
+                    },
+                    "N": {
+                        "$ref": "#/definitions/types/u16"
+                    },
+                    "TagReportContentSelector": {
+                        "$ref": "#/definitions/parameters/TagReportContentSelector"
+                    },
+                    "Custom": {
+                        "if": {
+                            "type": "array"
+                        },
+                        "then": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/parameters/Custom"
+                            }
+                        },
+                        "else": {
+                            "$ref": "#/definitions/parameters/Custom"
+                        }
+                    }
+                },
+                "required": [
+                    "ROReportTrigger",
+                    "N",
+                    "TagReportContentSelector"
+                ]
+            },
+            "TagReportContentSelector": {
+                "type": "object",
+                "properties": {
+                    "EnableROSpecID": {
+                        "$ref": "#/definitions/types/u1"
+                    },
+                    "EnableSpecIndex": {
+                        "$ref": "#/definitions/types/u1"
+                    },
+                    "EnableInventoryParameterSpecID": {
+                        "$ref": "#/definitions/types/u1"
+                    },
+                    "EnableAntennaID": {
+                        "$ref": "#/definitions/types/u1"
+                    },
+                    "EnableChannelIndex": {
+                        "$ref": "#/definitions/types/u1"
+                    },
+                    "EnablePeakRSSI": {
+                        "$ref": "#/definitions/types/u1"
+                    },
+                    "EnableFirstSeenTimestamp": {
+                        "$ref": "#/definitions/types/u1"
+                    },
+                    "EnableLastSeenTimestamp": {
+                        "$ref": "#/definitions/types/u1"
+                    },
+                    "EnableTagSeenCount": {
+                        "$ref": "#/definitions/types/u1"
+                    },
+                    "EnableAccessSpecID": {
+                        "$ref": "#/definitions/types/u1"
+                    },
+                    "C1G2EPCMemorySelector": {
+                        "if": {
+                            "type": "array"
+                        },
+                        "then": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/parameters/C1G2EPCMemorySelector"
+                            }
+                        },
+                        "else": {
+                            "$ref": "#/definitions/parameters/C1G2EPCMemorySelector"
+                        }
+                    }
+                },
+                "required": [
+                    "EnableROSpecID",
+                    "EnableSpecIndex",
+                    "EnableInventoryParameterSpecID",
+                    "EnableAntennaID",
+                    "EnableChannelIndex",
+                    "EnablePeakRSSI",
+                    "EnableFirstSeenTimestamp",
+                    "EnableLastSeenTimestamp",
+                    "EnableTagSeenCount",
+                    "EnableAccessSpecID"
+                ]
+            },
+            "AccessReportSpec": {
+                "type": "object",
+                "properties": {
+                    "AccessReportTrigger": {
+                        "$ref": "#/definitions/enumerations/AccessReportTriggerType"
+                    }
+                },
+                "required": [
+                    "AccessReportTrigger"
+                ]
+            },
+            "TagReportData": {
+                "type": "object",
+                "properties": {
+                    "EPCData": {
+                        "$ref": "#/definitions/parameters/EPCData"
+                    },
+                    "EPC_96": {
+                        "$ref": "#/definitions/parameters/EPC_96"
+                    },
+                    "ROSpecID": {
+                        "$ref": "#/definitions/parameters/ROSpecID"
+                    },
+                    "SpecIndex": {
+                        "$ref": "#/definitions/parameters/SpecIndex"
+                    },
+                    "InventoryParameterSpecID": {
+                        "$ref": "#/definitions/parameters/InventoryParameterSpecID"
+                    },
+                    "AntennaID": {
+                        "$ref": "#/definitions/parameters/AntennaID"
+                    },
+                    "PeakRSSI": {
+                        "$ref": "#/definitions/parameters/PeakRSSI"
+                    },
+                    "ChannelIndex": {
+                        "$ref": "#/definitions/parameters/ChannelIndex"
+                    },
+                    "FirstSeenTimestampUTC": {
+                        "$ref": "#/definitions/parameters/FirstSeenTimestampUTC"
+                    },
+                    "FirstSeenTimestampUptime": {
+                        "$ref": "#/definitions/parameters/FirstSeenTimestampUptime"
+                    },
+                    "LastSeenTimestampUTC": {
+                        "$ref": "#/definitions/parameters/LastSeenTimestampUTC"
+                    },
+                    "LastSeenTimestampUptime": {
+                        "$ref": "#/definitions/parameters/LastSeenTimestampUptime"
+                    },
+                    "TagSeenCount": {
+                        "$ref": "#/definitions/parameters/TagSeenCount"
+                    },
+                    "C1G2_PC": {
+                        "if": {
+                            "type": "array"
+                        },
+                        "then": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/parameters/C1G2_PC"
+                            }
+                        },
+                        "else": {
+                            "$ref": "#/definitions/parameters/C1G2_PC"
+                        }
+                    },
+                    "C1G2_CRC": {
+                        "if": {
+                            "type": "array"
+                        },
+                        "then": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/parameters/C1G2_CRC"
+                            }
+                        },
+                        "else": {
+                            "$ref": "#/definitions/parameters/C1G2_CRC"
+                        }
+                    },
+                    "AccessSpecID": {
+                        "$ref": "#/definitions/parameters/AccessSpecID"
+                    },
+                    "C1G2ReadOpSpecResult": {
+                        "if": {
+                            "type": "array"
+                        },
+                        "then": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/parameters/C1G2ReadOpSpecResult"
+                            }
+                        },
+                        "else": {
+                            "$ref": "#/definitions/parameters/C1G2ReadOpSpecResult"
+                        }
+                    },
+                    "C1G2WriteOpSpecResult": {
+                        "if": {
+                            "type": "array"
+                        },
+                        "then": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/parameters/C1G2WriteOpSpecResult"
+                            }
+                        },
+                        "else": {
+                            "$ref": "#/definitions/parameters/C1G2WriteOpSpecResult"
+                        }
+                    },
+                    "C1G2KillOpSpecResult": {
+                        "if": {
+                            "type": "array"
+                        },
+                        "then": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/parameters/C1G2KillOpSpecResult"
+                            }
+                        },
+                        "else": {
+                            "$ref": "#/definitions/parameters/C1G2KillOpSpecResult"
+                        }
+                    },
+                    "C1G2LockOpSpecResult": {
+                        "if": {
+                            "type": "array"
+                        },
+                        "then": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/parameters/C1G2LockOpSpecResult"
+                            }
+                        },
+                        "else": {
+                            "$ref": "#/definitions/parameters/C1G2LockOpSpecResult"
+                        }
+                    },
+                    "C1G2BlockEraseOpSpecResult": {
+                        "if": {
+                            "type": "array"
+                        },
+                        "then": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/parameters/C1G2BlockEraseOpSpecResult"
+                            }
+                        },
+                        "else": {
+                            "$ref": "#/definitions/parameters/C1G2BlockEraseOpSpecResult"
+                        }
+                    },
+                    "C1G2BlockWriteOpSpecResult": {
+                        "if": {
+                            "type": "array"
+                        },
+                        "then": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/parameters/C1G2BlockWriteOpSpecResult"
+                            }
+                        },
+                        "else": {
+                            "$ref": "#/definitions/parameters/C1G2BlockWriteOpSpecResult"
+                        }
+                    },
+                    "Custom": {
+                        "if": {
+                            "type": "array"
+                        },
+                        "then": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/parameters/Custom"
+                            }
+                        },
+                        "else": {
+                            "$ref": "#/definitions/parameters/Custom"
+                        }
+                    }
+                },
+                "allOf": [
+                    {
+                        "oneOf": [
+                            {
+                                "required": [
+                                    "EPCData"
+                                ]
+                            },
+                            {
+                                "required": [
+                                    "EPC_96"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            "EPCData": {
+                "type": "object",
+                "properties": {
+                    "EPC": {
+                        "$ref": "#/definitions/types/hexstring"
+                    }
+                },
+                "required": [
+                    "EPC"
+                ]
+            },
+            "EPC_96": {
+                "type": "object",
+                "properties": {
+                    "EPC": {
+                        "$ref": "#/definitions/types/u96Hexstring"
+                    }
+                },
+                "required": [
+                    "EPC"
+                ]
+            },
+            "ROSpecID": {
+                "type": "object",
+                "properties": {
+                    "ROSpecID": {
+                        "$ref": "#/definitions/types/u32"
+                    }
+                },
+                "required": [
+                    "ROSpecID"
+                ]
+            },
+            "SpecIndex": {
+                "type": "object",
+                "properties": {
+                    "SpecIndex": {
+                        "$ref": "#/definitions/types/u16"
+                    }
+                },
+                "required": [
+                    "SpecIndex"
+                ]
+            },
+            "InventoryParameterSpecID": {
+                "type": "object",
+                "properties": {
+                    "InventoryParameterSpecID": {
+                        "$ref": "#/definitions/types/u16"
+                    }
+                },
+                "required": [
+                    "InventoryParameterSpecID"
+                ]
+            },
+            "AntennaID": {
+                "type": "object",
+                "properties": {
+                    "AntennaID": {
+                        "$ref": "#/definitions/types/u16"
+                    }
+                },
+                "required": [
+                    "AntennaID"
+                ]
+            },
+            "PeakRSSI": {
+                "type": "object",
+                "properties": {
+                    "PeakRSSI": {
+                        "$ref": "#/definitions/types/s8"
+                    }
+                },
+                "required": [
+                    "PeakRSSI"
+                ]
+            },
+            "ChannelIndex": {
+                "type": "object",
+                "properties": {
+                    "ChannelIndex": {
+                        "$ref": "#/definitions/types/u16"
+                    }
+                },
+                "required": [
+                    "ChannelIndex"
+                ]
+            },
+            "FirstSeenTimestampUTC": {
+                "type": "object",
+                "properties": {
+                    "Microseconds": {
+                        "$ref": "#/definitions/types/datetime"
+                    }
+                },
+                "required": [
+                    "Microseconds"
+                ]
+            },
+            "FirstSeenTimestampUptime": {
+                "type": "object",
+                "properties": {
+                    "Microseconds": {
+                        "$ref": "#/definitions/types/u64"
+                    }
+                },
+                "required": [
+                    "Microseconds"
+                ]
+            },
+            "LastSeenTimestampUTC": {
+                "type": "object",
+                "properties": {
+                    "Microseconds": {
+                        "$ref": "#/definitions/types/datetime"
+                    }
+                },
+                "required": [
+                    "Microseconds"
+                ]
+            },
+            "LastSeenTimestampUptime": {
+                "type": "object",
+                "properties": {
+                    "Microseconds": {
+                        "$ref": "#/definitions/types/u64"
+                    }
+                },
+                "required": [
+                    "Microseconds"
+                ]
+            },
+            "TagSeenCount": {
+                "type": "object",
+                "properties": {
+                    "TagCount": {
+                        "$ref": "#/definitions/types/u16"
+                    }
+                },
+                "required": [
+                    "TagCount"
+                ]
+            },
+            "AccessSpecID": {
+                "type": "object",
+                "properties": {
+                    "AccessSpecID": {
+                        "$ref": "#/definitions/types/u32"
+                    }
+                },
+                "required": [
+                    "AccessSpecID"
+                ]
+            },
+            "RFSurveyReportData": {
+                "type": "object",
+                "properties": {
+                    "ROSpecID": {
+                        "$ref": "#/definitions/parameters/ROSpecID"
+                    },
+                    "SpecIndex": {
+                        "$ref": "#/definitions/parameters/SpecIndex"
+                    },
+                    "FrequencyRSSILevelEntry": {
+                        "if": {
+                            "type": "array"
+                        },
+                        "then": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/parameters/FrequencyRSSILevelEntry"
+                            }
+                        },
+                        "else": {
+                            "$ref": "#/definitions/parameters/FrequencyRSSILevelEntry"
+                        }
+                    },
+                    "Custom": {
+                        "if": {
+                            "type": "array"
+                        },
+                        "then": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/parameters/Custom"
+                            }
+                        },
+                        "else": {
+                            "$ref": "#/definitions/parameters/Custom"
+                        }
+                    }
+                },
+                "required": [
+                    "FrequencyRSSILevelEntry"
+                ]
+            },
+            "FrequencyRSSILevelEntry": {
+                "type": "object",
+                "properties": {
+                    "Frequency": {
+                        "$ref": "#/definitions/types/u32"
+                    },
+                    "Bandwidth": {
+                        "$ref": "#/definitions/types/u32"
+                    },
+                    "AverageRSSI": {
+                        "$ref": "#/definitions/types/s8"
+                    },
+                    "PeakRSSI": {
+                        "$ref": "#/definitions/types/s8"
+                    },
+                    "UTCTimestamp": {
+                        "$ref": "#/definitions/parameters/UTCTimestamp"
+                    },
+                    "Uptime": {
+                        "$ref": "#/definitions/parameters/Uptime"
+                    }
+                },
+                "required": [
+                    "Frequency",
+                    "Bandwidth",
+                    "AverageRSSI",
+                    "PeakRSSI"
+                ],
+                "allOf": [
+                    {
+                        "oneOf": [
+                            {
+                                "required": [
+                                    "UTCTimestamp"
+                                ]
+                            },
+                            {
+                                "required": [
+                                    "Uptime"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            "ReaderEventNotificationSpec": {
+                "type": "object",
+                "properties": {
+                    "EventNotificationState": {
+                        "if": {
+                            "type": "array"
+                        },
+                        "then": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/parameters/EventNotificationState"
+                            }
+                        },
+                        "else": {
+                            "$ref": "#/definitions/parameters/EventNotificationState"
+                        }
+                    }
+                },
+                "required": [
+                    "EventNotificationState"
+                ]
+            },
+            "EventNotificationState": {
+                "type": "object",
+                "properties": {
+                    "EventType": {
+                        "$ref": "#/definitions/enumerations/NotificationEventType"
+                    },
+                    "NotificationState": {
+                        "$ref": "#/definitions/types/u1"
+                    }
+                },
+                "required": [
+                    "EventType",
+                    "NotificationState"
+                ]
+            },
+            "ReaderEventNotificationData": {
+                "type": "object",
+                "properties": {
+                    "UTCTimestamp": {
+                        "$ref": "#/definitions/parameters/UTCTimestamp"
+                    },
+                    "Uptime": {
+                        "$ref": "#/definitions/parameters/Uptime"
+                    },
+                    "HoppingEvent": {
+                        "$ref": "#/definitions/parameters/HoppingEvent"
+                    },
+                    "GPIEvent": {
+                        "$ref": "#/definitions/parameters/GPIEvent"
+                    },
+                    "ROSpecEvent": {
+                        "$ref": "#/definitions/parameters/ROSpecEvent"
+                    },
+                    "ReportBufferLevelWarningEvent": {
+                        "$ref": "#/definitions/parameters/ReportBufferLevelWarningEvent"
+                    },
+                    "ReportBufferOverflowErrorEvent": {
+                        "$ref": "#/definitions/parameters/ReportBufferOverflowErrorEvent"
+                    },
+                    "ReaderExceptionEvent": {
+                        "$ref": "#/definitions/parameters/ReaderExceptionEvent"
+                    },
+                    "RFSurveyEvent": {
+                        "$ref": "#/definitions/parameters/RFSurveyEvent"
+                    },
+                    "AISpecEvent": {
+                        "$ref": "#/definitions/parameters/AISpecEvent"
+                    },
+                    "AntennaEvent": {
+                        "$ref": "#/definitions/parameters/AntennaEvent"
+                    },
+                    "ConnectionAttemptEvent": {
+                        "$ref": "#/definitions/parameters/ConnectionAttemptEvent"
+                    },
+                    "ConnectionCloseEvent": {
+                        "$ref": "#/definitions/parameters/ConnectionCloseEvent"
+                    },
+                    "Custom": {
+                        "if": {
+                            "type": "array"
+                        },
+                        "then": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/parameters/Custom"
+                            }
+                        },
+                        "else": {
+                            "$ref": "#/definitions/parameters/Custom"
+                        }
+                    }
+                },
+                "allOf": [
+                    {
+                        "oneOf": [
+                            {
+                                "required": [
+                                    "UTCTimestamp"
+                                ]
+                            },
+                            {
+                                "required": [
+                                    "Uptime"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            "HoppingEvent": {
+                "type": "object",
+                "properties": {
+                    "HopTableID": {
+                        "$ref": "#/definitions/types/u16"
+                    },
+                    "NextChannelIndex": {
+                        "$ref": "#/definitions/types/u16"
+                    }
+                },
+                "required": [
+                    "HopTableID",
+                    "NextChannelIndex"
+                ]
+            },
+            "GPIEvent": {
+                "type": "object",
+                "properties": {
+                    "GPIPortNumber": {
+                        "$ref": "#/definitions/types/u16"
+                    },
+                    "GPIEvent": {
+                        "$ref": "#/definitions/types/u1"
+                    }
+                },
+                "required": [
+                    "GPIPortNumber",
+                    "GPIEvent"
+                ]
+            },
+            "ROSpecEvent": {
+                "type": "object",
+                "properties": {
+                    "EventType": {
+                        "$ref": "#/definitions/enumerations/ROSpecEventType"
+                    },
+                    "ROSpecID": {
+                        "$ref": "#/definitions/types/u32"
+                    },
+                    "PreemptingROSpecID": {
+                        "$ref": "#/definitions/types/u32"
+                    }
+                },
+                "required": [
+                    "EventType",
+                    "ROSpecID",
+                    "PreemptingROSpecID"
+                ]
+            },
+            "ReportBufferLevelWarningEvent": {
+                "type": "object",
+                "properties": {
+                    "ReportBufferPercentageFull": {
+                        "$ref": "#/definitions/types/u8"
+                    }
+                },
+                "required": [
+                    "ReportBufferPercentageFull"
+                ]
+            },
+            "ReportBufferOverflowErrorEvent": {
+                "type": "object",
+                "properties": {}
+            },
+            "ReaderExceptionEvent": {
+                "type": "object",
+                "properties": {
+                    "Message": {
+                        "type": "string"
+                    },
+                    "ROSpecID": {
+                        "$ref": "#/definitions/parameters/ROSpecID"
+                    },
+                    "SpecIndex": {
+                        "$ref": "#/definitions/parameters/SpecIndex"
+                    },
+                    "InventoryParameterSpecID": {
+                        "$ref": "#/definitions/parameters/InventoryParameterSpecID"
+                    },
+                    "AntennaID": {
+                        "$ref": "#/definitions/parameters/AntennaID"
+                    },
+                    "AccessSpecID": {
+                        "$ref": "#/definitions/parameters/AccessSpecID"
+                    },
+                    "OpSpecID": {
+                        "$ref": "#/definitions/parameters/OpSpecID"
+                    },
+                    "Custom": {
+                        "if": {
+                            "type": "array"
+                        },
+                        "then": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/parameters/Custom"
+                            }
+                        },
+                        "else": {
+                            "$ref": "#/definitions/parameters/Custom"
+                        }
+                    }
+                },
+                "required": [
+                    "Message"
+                ]
+            },
+            "OpSpecID": {
+                "type": "object",
+                "properties": {
+                    "OpSpecID": {
+                        "$ref": "#/definitions/types/u16"
+                    }
+                },
+                "required": [
+                    "OpSpecID"
+                ]
+            },
+            "RFSurveyEvent": {
+                "type": "object",
+                "properties": {
+                    "EventType": {
+                        "$ref": "#/definitions/enumerations/RFSurveyEventType"
+                    },
+                    "ROSpecID": {
+                        "$ref": "#/definitions/types/u32"
+                    },
+                    "SpecIndex": {
+                        "$ref": "#/definitions/types/u16"
+                    }
+                },
+                "required": [
+                    "EventType",
+                    "ROSpecID",
+                    "SpecIndex"
+                ]
+            },
+            "AISpecEvent": {
+                "type": "object",
+                "properties": {
+                    "EventType": {
+                        "$ref": "#/definitions/enumerations/AISpecEventType"
+                    },
+                    "ROSpecID": {
+                        "$ref": "#/definitions/types/u32"
+                    },
+                    "SpecIndex": {
+                        "$ref": "#/definitions/types/u16"
+                    },
+                    "C1G2SingulationDetails": {
+                        "$ref": "#/definitions/parameters/C1G2SingulationDetails"
+                    }
+                },
+                "required": [
+                    "EventType",
+                    "ROSpecID",
+                    "SpecIndex"
+                ]
+            },
+            "AntennaEvent": {
+                "type": "object",
+                "properties": {
+                    "EventType": {
+                        "$ref": "#/definitions/enumerations/AntennaEventType"
+                    },
+                    "AntennaID": {
+                        "$ref": "#/definitions/types/u16"
+                    }
+                },
+                "required": [
+                    "EventType",
+                    "AntennaID"
+                ]
+            },
+            "ConnectionAttemptEvent": {
+                "type": "object",
+                "properties": {
+                    "Status": {
+                        "$ref": "#/definitions/enumerations/ConnectionAttemptStatusType"
+                    }
+                },
+                "required": [
+                    "Status"
+                ]
+            },
+            "ConnectionCloseEvent": {
+                "type": "object",
+                "properties": {}
+            },
+            "LLRPStatus": {
+                "type": "object",
+                "properties": {
+                    "StatusCode": {
+                        "$ref": "#/definitions/enumerations/StatusCode"
+                    },
+                    "ErrorDescription": {
+                        "type": "string"
+                    },
+                    "FieldError": {
+                        "$ref": "#/definitions/parameters/FieldError"
+                    },
+                    "ParameterError": {
+                        "$ref": "#/definitions/parameters/ParameterError"
+                    }
+                },
+                "required": [
+                    "StatusCode",
+                    "ErrorDescription"
+                ]
+            },
+            "FieldError": {
+                "type": "object",
+                "properties": {
+                    "FieldNum": {
+                        "$ref": "#/definitions/types/u16"
+                    },
+                    "ErrorCode": {
+                        "$ref": "#/definitions/enumerations/StatusCode"
+                    }
+                },
+                "required": [
+                    "FieldNum",
+                    "ErrorCode"
+                ]
+            },
+            "ParameterError": {
+                "type": "object",
+                "properties": {
+                    "ParameterType": {
+                        "$ref": "#/definitions/types/u16"
+                    },
+                    "ErrorCode": {
+                        "$ref": "#/definitions/enumerations/StatusCode"
+                    },
+                    "FieldError": {
+                        "$ref": "#/definitions/parameters/FieldError"
+                    },
+                    "ParameterError": {
+                        "$ref": "#/definitions/parameters/ParameterError"
+                    }
+                },
+                "required": [
+                    "ParameterType",
+                    "ErrorCode"
+                ]
+            },
+            "C1G2LLRPCapabilities": {
+                "type": "object",
+                "properties": {
+                    "CanSupportBlockErase": {
+                        "$ref": "#/definitions/types/u1"
+                    },
+                    "CanSupportBlockWrite": {
+                        "$ref": "#/definitions/types/u1"
+                    },
+                    "MaxNumSelectFiltersPerQuery": {
+                        "$ref": "#/definitions/types/u16"
+                    }
+                },
+                "required": [
+                    "CanSupportBlockErase",
+                    "CanSupportBlockWrite",
+                    "MaxNumSelectFiltersPerQuery"
+                ]
+            },
+            "C1G2UHFRFModeTable": {
+                "type": "object",
+                "properties": {
+                    "C1G2UHFRFModeTableEntry": {
+                        "if": {
+                            "type": "array"
+                        },
+                        "then": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/parameters/C1G2UHFRFModeTableEntry"
+                            }
+                        },
+                        "else": {
+                            "$ref": "#/definitions/parameters/C1G2UHFRFModeTableEntry"
+                        }
+                    }
+                },
+                "required": [
+                    "C1G2UHFRFModeTableEntry"
+                ]
+            },
+            "C1G2UHFRFModeTableEntry": {
+                "type": "object",
+                "properties": {
+                    "ModeIdentifier": {
+                        "$ref": "#/definitions/types/u32"
+                    },
+                    "DRValue": {
+                        "$ref": "#/definitions/enumerations/C1G2DRValue"
+                    },
+                    "EPCHAGTCConformance": {
+                        "$ref": "#/definitions/types/u1"
+                    },
+                    "MValue": {
+                        "$ref": "#/definitions/enumerations/C1G2MValue"
+                    },
+                    "ForwardLinkModulation": {
+                        "$ref": "#/definitions/enumerations/C1G2ForwardLinkModulation"
+                    },
+                    "SpectralMaskIndicator": {
+                        "$ref": "#/definitions/enumerations/C1G2SpectralMaskIndicator"
+                    },
+                    "BDRValue": {
+                        "$ref": "#/definitions/types/u32"
+                    },
+                    "PIEValue": {
+                        "$ref": "#/definitions/types/u32"
+                    },
+                    "MinTariValue": {
+                        "$ref": "#/definitions/types/u32"
+                    },
+                    "MaxTariValue": {
+                        "$ref": "#/definitions/types/u32"
+                    },
+                    "StepTariValue": {
+                        "$ref": "#/definitions/types/u32"
+                    }
+                },
+                "required": [
+                    "ModeIdentifier",
+                    "DRValue",
+                    "EPCHAGTCConformance",
+                    "MValue",
+                    "ForwardLinkModulation",
+                    "SpectralMaskIndicator",
+                    "BDRValue",
+                    "PIEValue",
+                    "MinTariValue",
+                    "MaxTariValue",
+                    "StepTariValue"
+                ]
+            },
+            "C1G2InventoryCommand": {
+                "type": "object",
+                "properties": {
+                    "TagInventoryStateAware": {
+                        "$ref": "#/definitions/types/u1"
+                    },
+                    "C1G2Filter": {
+                        "if": {
+                            "type": "array"
+                        },
+                        "then": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/parameters/C1G2Filter"
+                            }
+                        },
+                        "else": {
+                            "$ref": "#/definitions/parameters/C1G2Filter"
+                        }
+                    },
+                    "C1G2RFControl": {
+                        "$ref": "#/definitions/parameters/C1G2RFControl"
+                    },
+                    "C1G2SingulationControl": {
+                        "$ref": "#/definitions/parameters/C1G2SingulationControl"
+                    },
+                    "Custom": {
+                        "if": {
+                            "type": "array"
+                        },
+                        "then": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/parameters/Custom"
+                            }
+                        },
+                        "else": {
+                            "$ref": "#/definitions/parameters/Custom"
+                        }
+                    }
+                },
+                "required": [
+                    "TagInventoryStateAware"
+                ]
+            },
+            "C1G2Filter": {
+                "type": "object",
+                "properties": {
+                    "T": {
+                        "$ref": "#/definitions/enumerations/C1G2TruncateAction"
+                    },
+                    "C1G2TagInventoryMask": {
+                        "$ref": "#/definitions/parameters/C1G2TagInventoryMask"
+                    },
+                    "C1G2TagInventoryStateAwareFilterAction": {
+                        "$ref": "#/definitions/parameters/C1G2TagInventoryStateAwareFilterAction"
+                    },
+                    "C1G2TagInventoryStateUnawareFilterAction": {
+                        "$ref": "#/definitions/parameters/C1G2TagInventoryStateUnawareFilterAction"
+                    }
+                },
+                "required": [
+                    "T",
+                    "C1G2TagInventoryMask"
+                ]
+            },
+            "C1G2TagInventoryMask": {
+                "type": "object",
+                "properties": {
+                    "MB": {
+                        "$ref": "#/definitions/types/u2"
+                    },
+                    "Pointer": {
+                        "$ref": "#/definitions/types/u16"
+                    },
+                    "TagMask": {
+                        "$ref": "#/definitions/types/hexstring"
+                    }
+                },
+                "required": [
+                    "MB",
+                    "Pointer",
+                    "TagMask"
+                ]
+            },
+            "C1G2TagInventoryStateAwareFilterAction": {
+                "type": "object",
+                "properties": {
+                    "Target": {
+                        "$ref": "#/definitions/enumerations/C1G2StateAwareTarget"
+                    },
+                    "Action": {
+                        "$ref": "#/definitions/enumerations/C1G2StateAwareAction"
+                    }
+                },
+                "required": [
+                    "Target",
+                    "Action"
+                ]
+            },
+            "C1G2TagInventoryStateUnawareFilterAction": {
+                "type": "object",
+                "properties": {
+                    "Action": {
+                        "$ref": "#/definitions/enumerations/C1G2StateUnawareAction"
+                    }
+                },
+                "required": [
+                    "Action"
+                ]
+            },
+            "C1G2RFControl": {
+                "type": "object",
+                "properties": {
+                    "ModeIndex": {
+                        "$ref": "#/definitions/types/u16"
+                    },
+                    "Tari": {
+                        "$ref": "#/definitions/types/u16"
+                    }
+                },
+                "required": [
+                    "ModeIndex",
+                    "Tari"
+                ]
+            },
+            "C1G2SingulationControl": {
+                "type": "object",
+                "properties": {
+                    "Session": {
+                        "$ref": "#/definitions/types/u2"
+                    },
+                    "TagPopulation": {
+                        "$ref": "#/definitions/types/u16"
+                    },
+                    "TagTransitTime": {
+                        "$ref": "#/definitions/types/u32"
+                    },
+                    "C1G2TagInventoryStateAwareSingulationAction": {
+                        "$ref": "#/definitions/parameters/C1G2TagInventoryStateAwareSingulationAction"
+                    }
+                },
+                "required": [
+                    "Session",
+                    "TagPopulation",
+                    "TagTransitTime"
+                ]
+            },
+            "C1G2TagInventoryStateAwareSingulationAction": {
+                "type": "object",
+                "properties": {
+                    "I": {
+                        "$ref": "#/definitions/enumerations/C1G2TagInventoryStateAwareI"
+                    },
+                    "S": {
+                        "$ref": "#/definitions/enumerations/C1G2TagInventoryStateAwareS"
+                    }
+                },
+                "required": [
+                    "I",
+                    "S"
+                ]
+            },
+            "C1G2TagSpec": {
+                "type": "object",
+                "properties": {
+                    "C1G2TargetTag": {
+                        "if": {
+                            "type": "array"
+                        },
+                        "then": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/parameters/C1G2TargetTag"
+                            }
+                        },
+                        "else": {
+                            "$ref": "#/definitions/parameters/C1G2TargetTag"
+                        }
+                    }
+                },
+                "required": [
+                    "C1G2TargetTag"
+                ]
+            },
+            "C1G2TargetTag": {
+                "type": "object",
+                "properties": {
+                    "MB": {
+                        "$ref": "#/definitions/types/u2"
+                    },
+                    "Match": {
+                        "$ref": "#/definitions/types/u1"
+                    },
+                    "Pointer": {
+                        "$ref": "#/definitions/types/u16"
+                    },
+                    "TagMask": {
+                        "$ref": "#/definitions/types/hexstring"
+                    },
+                    "TagData": {
+                        "$ref": "#/definitions/types/hexstring"
+                    }
+                },
+                "required": [
+                    "MB",
+                    "Match",
+                    "Pointer",
+                    "TagMask",
+                    "TagData"
+                ]
+            },
+            "C1G2Read": {
+                "type": "object",
+                "properties": {
+                    "OpSpecID": {
+                        "$ref": "#/definitions/types/u16"
+                    },
+                    "AccessPassword": {
+                        "$ref": "#/definitions/types/u32"
+                    },
+                    "MB": {
+                        "$ref": "#/definitions/types/u2"
+                    },
+                    "WordPointer": {
+                        "$ref": "#/definitions/types/u16"
+                    },
+                    "WordCount": {
+                        "$ref": "#/definitions/types/u16"
+                    }
+                },
+                "required": [
+                    "OpSpecID",
+                    "AccessPassword",
+                    "MB",
+                    "WordPointer",
+                    "WordCount"
+                ]
+            },
+            "C1G2Write": {
+                "type": "object",
+                "properties": {
+                    "OpSpecID": {
+                        "$ref": "#/definitions/types/u16"
+                    },
+                    "AccessPassword": {
+                        "$ref": "#/definitions/types/u32"
+                    },
+                    "MB": {
+                        "$ref": "#/definitions/types/u2"
+                    },
+                    "WordPointer": {
+                        "$ref": "#/definitions/types/u16"
+                    },
+                    "WriteData": {
+                        "$ref": "#/definitions/types/hexstring"
+                    }
+                },
+                "required": [
+                    "OpSpecID",
+                    "AccessPassword",
+                    "MB",
+                    "WordPointer",
+                    "WriteData"
+                ]
+            },
+            "C1G2Kill": {
+                "type": "object",
+                "properties": {
+                    "OpSpecID": {
+                        "$ref": "#/definitions/types/u16"
+                    },
+                    "KillPassword": {
+                        "$ref": "#/definitions/types/u32"
+                    }
+                },
+                "required": [
+                    "OpSpecID",
+                    "KillPassword"
+                ]
+            },
+            "C1G2Lock": {
+                "type": "object",
+                "properties": {
+                    "OpSpecID": {
+                        "$ref": "#/definitions/types/u16"
+                    },
+                    "AccessPassword": {
+                        "$ref": "#/definitions/types/u32"
+                    },
+                    "C1G2LockPayload": {
+                        "if": {
+                            "type": "array"
+                        },
+                        "then": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/parameters/C1G2LockPayload"
+                            }
+                        },
+                        "else": {
+                            "$ref": "#/definitions/parameters/C1G2LockPayload"
+                        }
+                    }
+                },
+                "required": [
+                    "OpSpecID",
+                    "AccessPassword",
+                    "C1G2LockPayload"
+                ]
+            },
+            "C1G2LockPayload": {
+                "type": "object",
+                "properties": {
+                    "Privilege": {
+                        "$ref": "#/definitions/enumerations/C1G2LockPrivilege"
+                    },
+                    "DataField": {
+                        "$ref": "#/definitions/enumerations/C1G2LockDataField"
+                    }
+                },
+                "required": [
+                    "Privilege",
+                    "DataField"
+                ]
+            },
+            "C1G2BlockErase": {
+                "type": "object",
+                "properties": {
+                    "OpSpecID": {
+                        "$ref": "#/definitions/types/u16"
+                    },
+                    "AccessPassword": {
+                        "$ref": "#/definitions/types/u32"
+                    },
+                    "MB": {
+                        "$ref": "#/definitions/types/u2"
+                    },
+                    "WordPointer": {
+                        "$ref": "#/definitions/types/u16"
+                    },
+                    "WordCount": {
+                        "$ref": "#/definitions/types/u16"
+                    }
+                },
+                "required": [
+                    "OpSpecID",
+                    "AccessPassword",
+                    "MB",
+                    "WordPointer",
+                    "WordCount"
+                ]
+            },
+            "C1G2BlockWrite": {
+                "type": "object",
+                "properties": {
+                    "OpSpecID": {
+                        "$ref": "#/definitions/types/u16"
+                    },
+                    "AccessPassword": {
+                        "$ref": "#/definitions/types/u32"
+                    },
+                    "MB": {
+                        "$ref": "#/definitions/types/u2"
+                    },
+                    "WordPointer": {
+                        "$ref": "#/definitions/types/u16"
+                    },
+                    "WriteData": {
+                        "$ref": "#/definitions/types/hexstring"
+                    }
+                },
+                "required": [
+                    "OpSpecID",
+                    "AccessPassword",
+                    "MB",
+                    "WordPointer",
+                    "WriteData"
+                ]
+            },
+            "C1G2EPCMemorySelector": {
+                "type": "object",
+                "properties": {
+                    "EnableCRC": {
+                        "$ref": "#/definitions/types/u1"
+                    },
+                    "EnablePCBits": {
+                        "$ref": "#/definitions/types/u1"
+                    }
+                },
+                "required": [
+                    "EnableCRC",
+                    "EnablePCBits"
+                ]
+            },
+            "C1G2_PC": {
+                "type": "object",
+                "properties": {
+                    "PC_Bits": {
+                        "$ref": "#/definitions/types/u16"
+                    }
+                },
+                "required": [
+                    "PC_Bits"
+                ]
+            },
+            "C1G2_CRC": {
+                "type": "object",
+                "properties": {
+                    "CRC": {
+                        "$ref": "#/definitions/types/u16"
+                    }
+                },
+                "required": [
+                    "CRC"
+                ]
+            },
+            "C1G2SingulationDetails": {
+                "type": "object",
+                "properties": {
+                    "NumCollisionSlots": {
+                        "$ref": "#/definitions/types/u16"
+                    },
+                    "NumEmptySlots": {
+                        "$ref": "#/definitions/types/u16"
+                    }
+                },
+                "required": [
+                    "NumCollisionSlots",
+                    "NumEmptySlots"
+                ]
+            },
+            "C1G2ReadOpSpecResult": {
+                "type": "object",
+                "properties": {
+                    "Result": {
+                        "$ref": "#/definitions/enumerations/C1G2ReadResultType"
+                    },
+                    "OpSpecID": {
+                        "$ref": "#/definitions/types/u16"
+                    },
+                    "ReadData": {
+                        "$ref": "#/definitions/types/hexstring"
+                    }
+                },
+                "required": [
+                    "Result",
+                    "OpSpecID",
+                    "ReadData"
+                ]
+            },
+            "C1G2WriteOpSpecResult": {
+                "type": "object",
+                "properties": {
+                    "Result": {
+                        "$ref": "#/definitions/enumerations/C1G2WriteResultType"
+                    },
+                    "OpSpecID": {
+                        "$ref": "#/definitions/types/u16"
+                    },
+                    "NumWordsWritten": {
+                        "$ref": "#/definitions/types/u16"
+                    }
+                },
+                "required": [
+                    "Result",
+                    "OpSpecID",
+                    "NumWordsWritten"
+                ]
+            },
+            "C1G2KillOpSpecResult": {
+                "type": "object",
+                "properties": {
+                    "Result": {
+                        "$ref": "#/definitions/enumerations/C1G2KillResultType"
+                    },
+                    "OpSpecID": {
+                        "$ref": "#/definitions/types/u16"
+                    }
+                },
+                "required": [
+                    "Result",
+                    "OpSpecID"
+                ]
+            },
+            "C1G2LockOpSpecResult": {
+                "type": "object",
+                "properties": {
+                    "Result": {
+                        "$ref": "#/definitions/enumerations/C1G2LockResultType"
+                    },
+                    "OpSpecID": {
+                        "$ref": "#/definitions/types/u16"
+                    }
+                },
+                "required": [
+                    "Result",
+                    "OpSpecID"
+                ]
+            },
+            "C1G2BlockEraseOpSpecResult": {
+                "type": "object",
+                "properties": {
+                    "Result": {
+                        "$ref": "#/definitions/enumerations/C1G2BlockEraseResultType"
+                    },
+                    "OpSpecID": {
+                        "$ref": "#/definitions/types/u16"
+                    }
+                },
+                "required": [
+                    "Result",
+                    "OpSpecID"
+                ]
+            },
+            "C1G2BlockWriteOpSpecResult": {
+                "type": "object",
+                "properties": {
+                    "Result": {
+                        "$ref": "#/definitions/enumerations/C1G2BlockWriteResultType"
+                    },
+                    "OpSpecID": {
+                        "$ref": "#/definitions/types/u16"
+                    },
+                    "NumWordsWritten": {
+                        "$ref": "#/definitions/types/u16"
+                    }
+                },
+                "required": [
+                    "Result",
+                    "OpSpecID",
+                    "NumWordsWritten"
+                ]
+            }
+        },
+        "enumerations": {
+            "AirProtocols": {
+                "type": "string",
+                "enum": [
+                    "Unspecified",
+                    "EPCGlobalClass1Gen2"
+                ]
+            },
+            "GetReaderCapabilitiesRequestedData": {
+                "type": "string",
+                "enum": [
+                    "All",
+                    "General_Device_Capabilities",
+                    "LLRP_Capabilities",
+                    "Regulatory_Capabilities",
+                    "LLRP_Air_Protocol_Capabilities"
+                ]
+            },
+            "CommunicationsStandard": {
+                "type": "string",
+                "enum": [
+                    "Unspecified",
+                    "US_FCC_Part_15",
+                    "ETSI_302_208",
+                    "ETSI_300_220",
+                    "Australia_LIPD_1W",
+                    "Australia_LIPD_4W",
+                    "Japan_ARIB_STD_T89",
+                    "Hong_Kong_OFTA_1049",
+                    "Taiwan_DGT_LP0002",
+                    "Korea_MIC_Article_5_2"
+                ]
+            },
+            "ROSpecState": {
+                "type": "string",
+                "enum": [
+                    "Disabled",
+                    "Inactive",
+                    "Active"
+                ]
+            },
+            "ROSpecStartTriggerType": {
+                "type": "string",
+                "enum": [
+                    "Null",
+                    "Immediate",
+                    "Periodic",
+                    "GPI"
+                ]
+            },
+            "ROSpecStopTriggerType": {
+                "type": "string",
+                "enum": [
+                    "Null",
+                    "Duration",
+                    "GPI_With_Timeout"
+                ]
+            },
+            "AISpecStopTriggerType": {
+                "type": "string",
+                "enum": [
+                    "Null",
+                    "Duration",
+                    "GPI_With_Timeout",
+                    "Tag_Observation"
+                ]
+            },
+            "TagObservationTriggerType": {
+                "type": "string",
+                "enum": [
+                    "Upon_Seeing_N_Tags_Or_Timeout",
+                    "Upon_Seeing_No_More_New_Tags_For_Tms_Or_Timeout",
+                    "N_Attempts_To_See_All_Tags_In_FOV_Or_Timeout"
+                ]
+            },
+            "RFSurveySpecStopTriggerType": {
+                "type": "string",
+                "enum": [
+                    "Null",
+                    "Duration",
+                    "N_Iterations_Through_Frequency_Range"
+                ]
+            },
+            "AccessSpecState": {
+                "type": "string",
+                "enum": [
+                    "Disabled",
+                    "Active"
+                ]
+            },
+            "AccessSpecStopTriggerType": {
+                "type": "string",
+                "enum": [
+                    "Null",
+                    "Operation_Count"
+                ]
+            },
+            "GetReaderConfigRequestedData": {
+                "type": "string",
+                "enum": [
+                    "All",
+                    "Identification",
+                    "AntennaProperties",
+                    "AntennaConfiguration",
+                    "ROReportSpec",
+                    "ReaderEventNotificationSpec",
+                    "AccessReportSpec",
+                    "LLRPConfigurationStateValue",
+                    "KeepaliveSpec",
+                    "GPIPortCurrentState",
+                    "GPOWriteData",
+                    "EventsAndReports"
+                ]
+            },
+            "IdentificationType": {
+                "type": "string",
+                "enum": [
+                    "MAC_Address",
+                    "EPC"
+                ]
+            },
+            "KeepaliveTriggerType": {
+                "type": "string",
+                "enum": [
+                    "Null",
+                    "Periodic"
+                ]
+            },
+            "GPIPortState": {
+                "type": "string",
+                "enum": [
+                    "Low",
+                    "High",
+                    "Unknown"
+                ]
+            },
+            "ROReportTriggerType": {
+                "type": "string",
+                "enum": [
+                    "None",
+                    "Upon_N_Tags_Or_End_Of_AISpec",
+                    "Upon_N_Tags_Or_End_Of_ROSpec"
+                ]
+            },
+            "AccessReportTriggerType": {
+                "type": "string",
+                "enum": [
+                    "Whenever_ROReport_Is_Generated",
+                    "End_Of_AccessSpec"
+                ]
+            },
+            "NotificationEventType": {
+                "type": "string",
+                "enum": [
+                    "Upon_Hopping_To_Next_Channel",
+                    "GPI_Event",
+                    "ROSpec_Event",
+                    "Report_Buffer_Fill_Warning",
+                    "Reader_Exception_Event",
+                    "RFSurvey_Event",
+                    "AISpec_Event",
+                    "AISpec_Event_With_Details",
+                    "Antenna_Event"
+                ]
+            },
+            "ROSpecEventType": {
+                "type": "string",
+                "enum": [
+                    "Start_Of_ROSpec",
+                    "End_Of_ROSpec",
+                    "Preemption_Of_ROSpec"
+                ]
+            },
+            "RFSurveyEventType": {
+                "type": "string",
+                "enum": [
+                    "Start_Of_RFSurvey",
+                    "End_Of_RFSurvey"
+                ]
+            },
+            "AISpecEventType": {
+                "type": "string",
+                "enum": [
+                    "End_Of_AISpec"
+                ]
+            },
+            "AntennaEventType": {
+                "type": "string",
+                "enum": [
+                    "Antenna_Disconnected",
+                    "Antenna_Connected"
+                ]
+            },
+            "ConnectionAttemptStatusType": {
+                "type": "string",
+                "enum": [
+                    "Success",
+                    "Failed_A_Reader_Initiated_Connection_Already_Exists",
+                    "Failed_A_Client_Initiated_Connection_Already_Exists",
+                    "Failed_Reason_Other_Than_A_Connection_Already_Exists",
+                    "Another_Connection_Attempted"
+                ]
+            },
+            "StatusCode": {
+                "type": "string",
+                "enum": [
+                    "M_Success",
+                    "M_ParameterError",
+                    "M_FieldError",
+                    "M_UnexpectedParameter",
+                    "M_MissingParameter",
+                    "M_DuplicateParameter",
+                    "M_OverflowParameter",
+                    "M_OverflowField",
+                    "M_UnknownParameter",
+                    "M_UnknownField",
+                    "M_UnsupportedMessage",
+                    "M_UnsupportedVersion",
+                    "M_UnsupportedParameter",
+                    "P_ParameterError",
+                    "P_FieldError",
+                    "P_UnexpectedParameter",
+                    "P_MissingParameter",
+                    "P_DuplicateParameter",
+                    "P_OverflowParameter",
+                    "P_OverflowField",
+                    "P_UnknownParameter",
+                    "P_UnknownField",
+                    "P_UnsupportedParameter",
+                    "A_Invalid",
+                    "A_OutOfRange",
+                    "R_DeviceError"
+                ]
+            },
+            "C1G2DRValue": {
+                "type": "string",
+                "enum": [
+                    "DRV_8",
+                    "DRV_64_3"
+                ]
+            },
+            "C1G2MValue": {
+                "type": "string",
+                "enum": [
+                    "MV_FM0",
+                    "MV_2",
+                    "MV_4",
+                    "MV_8"
+                ]
+            },
+            "C1G2ForwardLinkModulation": {
+                "type": "string",
+                "enum": [
+                    "PR_ASK",
+                    "SSB_ASK",
+                    "DSB_ASK"
+                ]
+            },
+            "C1G2SpectralMaskIndicator": {
+                "type": "string",
+                "enum": [
+                    "Unknown",
+                    "SI",
+                    "MI",
+                    "DI"
+                ]
+            },
+            "C1G2TruncateAction": {
+                "type": "string",
+                "enum": [
+                    "Unspecified",
+                    "Do_Not_Truncate",
+                    "Truncate"
+                ]
+            },
+            "C1G2StateAwareTarget": {
+                "type": "string",
+                "enum": [
+                    "SL",
+                    "Inventoried_State_For_Session_S0",
+                    "Inventoried_State_For_Session_S1",
+                    "Inventoried_State_For_Session_S2",
+                    "Inventoried_State_For_Session_S3"
+                ]
+            },
+            "C1G2StateAwareAction": {
+                "type": "string",
+                "enum": [
+                    "AssertSLOrA_DeassertSLOrB",
+                    "AssertSLOrA_Noop",
+                    "Noop_DeassertSLOrB",
+                    "NegateSLOrABBA_Noop",
+                    "DeassertSLOrB_AssertSLOrA",
+                    "DeassertSLOrB_Noop",
+                    "Noop_AssertSLOrA",
+                    "Noop_NegateSLOrABBA"
+                ]
+            },
+            "C1G2StateUnawareAction": {
+                "type": "string",
+                "enum": [
+                    "Select_Unselect",
+                    "Select_DoNothing",
+                    "DoNothing_Unselect",
+                    "Unselect_DoNothing",
+                    "Unselect_Select",
+                    "DoNothing_Select"
+                ]
+            },
+            "C1G2TagInventoryStateAwareI": {
+                "type": "string",
+                "enum": [
+                    "State_A",
+                    "State_B"
+                ]
+            },
+            "C1G2TagInventoryStateAwareS": {
+                "type": "string",
+                "enum": [
+                    "SL",
+                    "Not_SL"
+                ]
+            },
+            "C1G2LockPrivilege": {
+                "type": "string",
+                "enum": [
+                    "Read_Write",
+                    "Perma_Lock",
+                    "Perma_Unlock",
+                    "Unlock"
+                ]
+            },
+            "C1G2LockDataField": {
+                "type": "string",
+                "enum": [
+                    "Kill_Password",
+                    "Access_Password",
+                    "EPC_Memory",
+                    "TID_Memory",
+                    "User_Memory"
+                ]
+            },
+            "C1G2ReadResultType": {
+                "type": "string",
+                "enum": [
+                    "Success",
+                    "Nonspecific_Tag_Error",
+                    "No_Response_From_Tag",
+                    "Nonspecific_Reader_Error"
+                ]
+            },
+            "C1G2WriteResultType": {
+                "type": "string",
+                "enum": [
+                    "Success",
+                    "Tag_Memory_Overrun_Error",
+                    "Tag_Memory_Locked_Error",
+                    "Insufficient_Power",
+                    "Nonspecific_Tag_Error",
+                    "No_Response_From_Tag",
+                    "Nonspecific_Reader_Error"
+                ]
+            },
+            "C1G2KillResultType": {
+                "type": "string",
+                "enum": [
+                    "Success",
+                    "Zero_Kill_Password_Error",
+                    "Insufficient_Power",
+                    "Nonspecific_Tag_Error",
+                    "No_Response_From_Tag",
+                    "Nonspecific_Reader_Error"
+                ]
+            },
+            "C1G2LockResultType": {
+                "type": "string",
+                "enum": [
+                    "Success",
+                    "Insufficient_Power",
+                    "Nonspecific_Tag_Error",
+                    "No_Response_From_Tag",
+                    "Nonspecific_Reader_Error"
+                ]
+            },
+            "C1G2BlockEraseResultType": {
+                "type": "string",
+                "enum": [
+                    "Success",
+                    "Tag_Memory_Overrun_Error",
+                    "Tag_Memory_Locked_Error",
+                    "Insufficient_Power",
+                    "Nonspecific_Tag_Error",
+                    "No_Response_From_Tag",
+                    "Nonspecific_Reader_Error"
+                ]
+            },
+            "C1G2BlockWriteResultType": {
+                "type": "string",
+                "enum": [
+                    "Success",
+                    "Tag_Memory_Overrun_Error",
+                    "Tag_Memory_Locked_Error",
+                    "Insufficient_Power",
+                    "Nonspecific_Tag_Error",
+                    "No_Response_From_Tag",
+                    "Nonspecific_Reader_Error"
+                ]
+            }
+        },
+        "messages": {
+            "CUSTOM_MESSAGE": {
+                "properties": {
+                    "MessageType": {
+                        "const": "CUSTOM_MESSAGE"
+                    },
+                    "MessageBody": {
+                        "properties": {
+                            "VendorIdentifier": {
+                                "$ref": "#/definitions/types/u32"
+                            },
+                            "MessageSubtype": {
+                                "$ref": "#/definitions/types/u8"
+                            },
+                            "Data": {
+                                "$ref": "#/definitions/types/hexstring"
+                            }
+                        },
+                        "additionalProperties": false,
+                        "required": [
+                            "VendorIdentifier",
+                            "MessageSubtype",
+                            "Data"
+                        ]
+                    }
+                }
+            },
+            "GET_READER_CAPABILITIES": {
+                "properties": {
+                    "MessageType": {
+                        "const": "GET_READER_CAPABILITIES"
+                    },
+                    "MessageBody": {
+                        "properties": {
+                            "RequestedData": {
+                                "$ref": "#/definitions/enumerations/GetReaderCapabilitiesRequestedData"
+                            },
+                            "Custom": {
+                                "if": {
+                                    "type": "array"
+                                },
+                                "then": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/parameters/Custom"
+                                    }
+                                },
+                                "else": {
+                                    "$ref": "#/definitions/parameters/Custom"
+                                }
+                            }
+                        },
+                        "additionalProperties": false,
+                        "required": [
+                            "RequestedData"
+                        ]
+                    }
+                }
+            },
+            "GET_READER_CAPABILITIES_RESPONSE": {
+                "properties": {
+                    "MessageType": {
+                        "const": "GET_READER_CAPABILITIES_RESPONSE"
+                    },
+                    "MessageBody": {
+                        "properties": {
+                            "LLRPStatus": {
+                                "$ref": "#/definitions/parameters/LLRPStatus"
+                            },
+                            "GeneralDeviceCapabilities": {
+                                "$ref": "#/definitions/parameters/GeneralDeviceCapabilities"
+                            },
+                            "LLRPCapabilities": {
+                                "$ref": "#/definitions/parameters/LLRPCapabilities"
+                            },
+                            "RegulatoryCapabilities": {
+                                "$ref": "#/definitions/parameters/RegulatoryCapabilities"
+                            },
+                            "C1G2LLRPCapabilities": {
+                                "$ref": "#/definitions/parameters/C1G2LLRPCapabilities"
+                            },
+                            "Custom": {
+                                "if": {
+                                    "type": "array"
+                                },
+                                "then": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/parameters/Custom"
+                                    }
+                                },
+                                "else": {
+                                    "$ref": "#/definitions/parameters/Custom"
+                                }
+                            }
+                        },
+                        "additionalProperties": false,
+                        "required": [
+                            "LLRPStatus"
+                        ]
+                    }
+                }
+            },
+            "ADD_ROSPEC": {
+                "properties": {
+                    "MessageType": {
+                        "const": "ADD_ROSPEC"
+                    },
+                    "MessageBody": {
+                        "properties": {
+                            "ROSpec": {
+                                "$ref": "#/definitions/parameters/ROSpec"
+                            }
+                        },
+                        "additionalProperties": false,
+                        "required": [
+                            "ROSpec"
+                        ]
+                    }
+                }
+            },
+            "ADD_ROSPEC_RESPONSE": {
+                "properties": {
+                    "MessageType": {
+                        "const": "ADD_ROSPEC_RESPONSE"
+                    },
+                    "MessageBody": {
+                        "properties": {
+                            "LLRPStatus": {
+                                "$ref": "#/definitions/parameters/LLRPStatus"
+                            }
+                        },
+                        "additionalProperties": false,
+                        "required": [
+                            "LLRPStatus"
+                        ]
+                    }
+                }
+            },
+            "DELETE_ROSPEC": {
+                "properties": {
+                    "MessageType": {
+                        "const": "DELETE_ROSPEC"
+                    },
+                    "MessageBody": {
+                        "properties": {
+                            "ROSpecID": {
+                                "$ref": "#/definitions/types/u32"
+                            }
+                        },
+                        "additionalProperties": false,
+                        "required": [
+                            "ROSpecID"
+                        ]
+                    }
+                }
+            },
+            "DELETE_ROSPEC_RESPONSE": {
+                "properties": {
+                    "MessageType": {
+                        "const": "DELETE_ROSPEC_RESPONSE"
+                    },
+                    "MessageBody": {
+                        "properties": {
+                            "LLRPStatus": {
+                                "$ref": "#/definitions/parameters/LLRPStatus"
+                            }
+                        },
+                        "additionalProperties": false,
+                        "required": [
+                            "LLRPStatus"
+                        ]
+                    }
+                }
+            },
+            "START_ROSPEC": {
+                "properties": {
+                    "MessageType": {
+                        "const": "START_ROSPEC"
+                    },
+                    "MessageBody": {
+                        "properties": {
+                            "ROSpecID": {
+                                "$ref": "#/definitions/types/u32"
+                            }
+                        },
+                        "additionalProperties": false,
+                        "required": [
+                            "ROSpecID"
+                        ]
+                    }
+                }
+            },
+            "START_ROSPEC_RESPONSE": {
+                "properties": {
+                    "MessageType": {
+                        "const": "START_ROSPEC_RESPONSE"
+                    },
+                    "MessageBody": {
+                        "properties": {
+                            "LLRPStatus": {
+                                "$ref": "#/definitions/parameters/LLRPStatus"
+                            }
+                        },
+                        "additionalProperties": false,
+                        "required": [
+                            "LLRPStatus"
+                        ]
+                    }
+                }
+            },
+            "STOP_ROSPEC": {
+                "properties": {
+                    "MessageType": {
+                        "const": "STOP_ROSPEC"
+                    },
+                    "MessageBody": {
+                        "properties": {
+                            "ROSpecID": {
+                                "$ref": "#/definitions/types/u32"
+                            }
+                        },
+                        "additionalProperties": false,
+                        "required": [
+                            "ROSpecID"
+                        ]
+                    }
+                }
+            },
+            "STOP_ROSPEC_RESPONSE": {
+                "properties": {
+                    "MessageType": {
+                        "const": "STOP_ROSPEC_RESPONSE"
+                    },
+                    "MessageBody": {
+                        "properties": {
+                            "LLRPStatus": {
+                                "$ref": "#/definitions/parameters/LLRPStatus"
+                            }
+                        },
+                        "additionalProperties": false,
+                        "required": [
+                            "LLRPStatus"
+                        ]
+                    }
+                }
+            },
+            "ENABLE_ROSPEC": {
+                "properties": {
+                    "MessageType": {
+                        "const": "ENABLE_ROSPEC"
+                    },
+                    "MessageBody": {
+                        "properties": {
+                            "ROSpecID": {
+                                "$ref": "#/definitions/types/u32"
+                            }
+                        },
+                        "additionalProperties": false,
+                        "required": [
+                            "ROSpecID"
+                        ]
+                    }
+                }
+            },
+            "ENABLE_ROSPEC_RESPONSE": {
+                "properties": {
+                    "MessageType": {
+                        "const": "ENABLE_ROSPEC_RESPONSE"
+                    },
+                    "MessageBody": {
+                        "properties": {
+                            "LLRPStatus": {
+                                "$ref": "#/definitions/parameters/LLRPStatus"
+                            }
+                        },
+                        "additionalProperties": false,
+                        "required": [
+                            "LLRPStatus"
+                        ]
+                    }
+                }
+            },
+            "DISABLE_ROSPEC": {
+                "properties": {
+                    "MessageType": {
+                        "const": "DISABLE_ROSPEC"
+                    },
+                    "MessageBody": {
+                        "properties": {
+                            "ROSpecID": {
+                                "$ref": "#/definitions/types/u32"
+                            }
+                        },
+                        "additionalProperties": false,
+                        "required": [
+                            "ROSpecID"
+                        ]
+                    }
+                }
+            },
+            "DISABLE_ROSPEC_RESPONSE": {
+                "properties": {
+                    "MessageType": {
+                        "const": "DISABLE_ROSPEC_RESPONSE"
+                    },
+                    "MessageBody": {
+                        "properties": {
+                            "LLRPStatus": {
+                                "$ref": "#/definitions/parameters/LLRPStatus"
+                            }
+                        },
+                        "additionalProperties": false,
+                        "required": [
+                            "LLRPStatus"
+                        ]
+                    }
+                }
+            },
+            "GET_ROSPECS": {
+                "properties": {
+                    "MessageType": {
+                        "const": "GET_ROSPECS"
+                    },
+                    "MessageBody": {
+                        "properties": {},
+                        "additionalProperties": false
+                    }
+                }
+            },
+            "GET_ROSPECS_RESPONSE": {
+                "properties": {
+                    "MessageType": {
+                        "const": "GET_ROSPECS_RESPONSE"
+                    },
+                    "MessageBody": {
+                        "properties": {
+                            "LLRPStatus": {
+                                "$ref": "#/definitions/parameters/LLRPStatus"
+                            },
+                            "ROSpec": {
+                                "if": {
+                                    "type": "array"
+                                },
+                                "then": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/parameters/ROSpec"
+                                    }
+                                },
+                                "else": {
+                                    "$ref": "#/definitions/parameters/ROSpec"
+                                }
+                            }
+                        },
+                        "additionalProperties": false,
+                        "required": [
+                            "LLRPStatus"
+                        ]
+                    }
+                }
+            },
+            "ADD_ACCESSSPEC": {
+                "properties": {
+                    "MessageType": {
+                        "const": "ADD_ACCESSSPEC"
+                    },
+                    "MessageBody": {
+                        "properties": {
+                            "AccessSpec": {
+                                "$ref": "#/definitions/parameters/AccessSpec"
+                            }
+                        },
+                        "additionalProperties": false,
+                        "required": [
+                            "AccessSpec"
+                        ]
+                    }
+                }
+            },
+            "ADD_ACCESSSPEC_RESPONSE": {
+                "properties": {
+                    "MessageType": {
+                        "const": "ADD_ACCESSSPEC_RESPONSE"
+                    },
+                    "MessageBody": {
+                        "properties": {
+                            "LLRPStatus": {
+                                "$ref": "#/definitions/parameters/LLRPStatus"
+                            }
+                        },
+                        "additionalProperties": false,
+                        "required": [
+                            "LLRPStatus"
+                        ]
+                    }
+                }
+            },
+            "DELETE_ACCESSSPEC": {
+                "properties": {
+                    "MessageType": {
+                        "const": "DELETE_ACCESSSPEC"
+                    },
+                    "MessageBody": {
+                        "properties": {
+                            "AccessSpecID": {
+                                "$ref": "#/definitions/types/u32"
+                            }
+                        },
+                        "additionalProperties": false,
+                        "required": [
+                            "AccessSpecID"
+                        ]
+                    }
+                }
+            },
+            "DELETE_ACCESSSPEC_RESPONSE": {
+                "properties": {
+                    "MessageType": {
+                        "const": "DELETE_ACCESSSPEC_RESPONSE"
+                    },
+                    "MessageBody": {
+                        "properties": {
+                            "LLRPStatus": {
+                                "$ref": "#/definitions/parameters/LLRPStatus"
+                            }
+                        },
+                        "additionalProperties": false,
+                        "required": [
+                            "LLRPStatus"
+                        ]
+                    }
+                }
+            },
+            "ENABLE_ACCESSSPEC": {
+                "properties": {
+                    "MessageType": {
+                        "const": "ENABLE_ACCESSSPEC"
+                    },
+                    "MessageBody": {
+                        "properties": {
+                            "AccessSpecID": {
+                                "$ref": "#/definitions/types/u32"
+                            }
+                        },
+                        "additionalProperties": false,
+                        "required": [
+                            "AccessSpecID"
+                        ]
+                    }
+                }
+            },
+            "ENABLE_ACCESSSPEC_RESPONSE": {
+                "properties": {
+                    "MessageType": {
+                        "const": "ENABLE_ACCESSSPEC_RESPONSE"
+                    },
+                    "MessageBody": {
+                        "properties": {
+                            "LLRPStatus": {
+                                "$ref": "#/definitions/parameters/LLRPStatus"
+                            }
+                        },
+                        "additionalProperties": false,
+                        "required": [
+                            "LLRPStatus"
+                        ]
+                    }
+                }
+            },
+            "DISABLE_ACCESSSPEC": {
+                "properties": {
+                    "MessageType": {
+                        "const": "DISABLE_ACCESSSPEC"
+                    },
+                    "MessageBody": {
+                        "properties": {
+                            "AccessSpecID": {
+                                "$ref": "#/definitions/types/u32"
+                            }
+                        },
+                        "additionalProperties": false,
+                        "required": [
+                            "AccessSpecID"
+                        ]
+                    }
+                }
+            },
+            "DISABLE_ACCESSSPEC_RESPONSE": {
+                "properties": {
+                    "MessageType": {
+                        "const": "DISABLE_ACCESSSPEC_RESPONSE"
+                    },
+                    "MessageBody": {
+                        "properties": {
+                            "LLRPStatus": {
+                                "$ref": "#/definitions/parameters/LLRPStatus"
+                            }
+                        },
+                        "additionalProperties": false,
+                        "required": [
+                            "LLRPStatus"
+                        ]
+                    }
+                }
+            },
+            "GET_ACCESSSPECS": {
+                "properties": {
+                    "MessageType": {
+                        "const": "GET_ACCESSSPECS"
+                    },
+                    "MessageBody": {
+                        "properties": {},
+                        "additionalProperties": false
+                    }
+                }
+            },
+            "GET_ACCESSSPECS_RESPONSE": {
+                "properties": {
+                    "MessageType": {
+                        "const": "GET_ACCESSSPECS_RESPONSE"
+                    },
+                    "MessageBody": {
+                        "properties": {
+                            "LLRPStatus": {
+                                "$ref": "#/definitions/parameters/LLRPStatus"
+                            },
+                            "AccessSpec": {
+                                "if": {
+                                    "type": "array"
+                                },
+                                "then": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/parameters/AccessSpec"
+                                    }
+                                },
+                                "else": {
+                                    "$ref": "#/definitions/parameters/AccessSpec"
+                                }
+                            }
+                        },
+                        "additionalProperties": false,
+                        "required": [
+                            "LLRPStatus"
+                        ]
+                    }
+                }
+            },
+            "GET_READER_CONFIG": {
+                "properties": {
+                    "MessageType": {
+                        "const": "GET_READER_CONFIG"
+                    },
+                    "MessageBody": {
+                        "properties": {
+                            "AntennaID": {
+                                "$ref": "#/definitions/types/u16"
+                            },
+                            "RequestedData": {
+                                "$ref": "#/definitions/enumerations/GetReaderConfigRequestedData"
+                            },
+                            "GPIPortNum": {
+                                "$ref": "#/definitions/types/u16"
+                            },
+                            "GPOPortNum": {
+                                "$ref": "#/definitions/types/u16"
+                            },
+                            "Custom": {
+                                "if": {
+                                    "type": "array"
+                                },
+                                "then": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/parameters/Custom"
+                                    }
+                                },
+                                "else": {
+                                    "$ref": "#/definitions/parameters/Custom"
+                                }
+                            }
+                        },
+                        "additionalProperties": false,
+                        "required": [
+                            "AntennaID",
+                            "RequestedData",
+                            "GPIPortNum",
+                            "GPOPortNum"
+                        ]
+                    }
+                }
+            },
+            "GET_READER_CONFIG_RESPONSE": {
+                "properties": {
+                    "MessageType": {
+                        "const": "GET_READER_CONFIG_RESPONSE"
+                    },
+                    "MessageBody": {
+                        "properties": {
+                            "LLRPStatus": {
+                                "$ref": "#/definitions/parameters/LLRPStatus"
+                            },
+                            "Identification": {
+                                "$ref": "#/definitions/parameters/Identification"
+                            },
+                            "AntennaProperties": {
+                                "if": {
+                                    "type": "array"
+                                },
+                                "then": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/parameters/AntennaProperties"
+                                    }
+                                },
+                                "else": {
+                                    "$ref": "#/definitions/parameters/AntennaProperties"
+                                }
+                            },
+                            "AntennaConfiguration": {
+                                "if": {
+                                    "type": "array"
+                                },
+                                "then": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/parameters/AntennaConfiguration"
+                                    }
+                                },
+                                "else": {
+                                    "$ref": "#/definitions/parameters/AntennaConfiguration"
+                                }
+                            },
+                            "ReaderEventNotificationSpec": {
+                                "$ref": "#/definitions/parameters/ReaderEventNotificationSpec"
+                            },
+                            "ROReportSpec": {
+                                "$ref": "#/definitions/parameters/ROReportSpec"
+                            },
+                            "AccessReportSpec": {
+                                "$ref": "#/definitions/parameters/AccessReportSpec"
+                            },
+                            "LLRPConfigurationStateValue": {
+                                "$ref": "#/definitions/parameters/LLRPConfigurationStateValue"
+                            },
+                            "KeepaliveSpec": {
+                                "$ref": "#/definitions/parameters/KeepaliveSpec"
+                            },
+                            "GPIPortCurrentState": {
+                                "if": {
+                                    "type": "array"
+                                },
+                                "then": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/parameters/GPIPortCurrentState"
+                                    }
+                                },
+                                "else": {
+                                    "$ref": "#/definitions/parameters/GPIPortCurrentState"
+                                }
+                            },
+                            "GPOWriteData": {
+                                "if": {
+                                    "type": "array"
+                                },
+                                "then": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/parameters/GPOWriteData"
+                                    }
+                                },
+                                "else": {
+                                    "$ref": "#/definitions/parameters/GPOWriteData"
+                                }
+                            },
+                            "EventsAndReports": {
+                                "$ref": "#/definitions/parameters/EventsAndReports"
+                            },
+                            "Custom": {
+                                "if": {
+                                    "type": "array"
+                                },
+                                "then": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/parameters/Custom"
+                                    }
+                                },
+                                "else": {
+                                    "$ref": "#/definitions/parameters/Custom"
+                                }
+                            }
+                        },
+                        "additionalProperties": false,
+                        "required": [
+                            "LLRPStatus"
+                        ]
+                    }
+                }
+            },
+            "SET_READER_CONFIG": {
+                "properties": {
+                    "MessageType": {
+                        "const": "SET_READER_CONFIG"
+                    },
+                    "MessageBody": {
+                        "properties": {
+                            "ResetToFactoryDefault": {
+                                "$ref": "#/definitions/types/u1"
+                            },
+                            "ReaderEventNotificationSpec": {
+                                "$ref": "#/definitions/parameters/ReaderEventNotificationSpec"
+                            },
+                            "AntennaProperties": {
+                                "if": {
+                                    "type": "array"
+                                },
+                                "then": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/parameters/AntennaProperties"
+                                    }
+                                },
+                                "else": {
+                                    "$ref": "#/definitions/parameters/AntennaProperties"
+                                }
+                            },
+                            "AntennaConfiguration": {
+                                "if": {
+                                    "type": "array"
+                                },
+                                "then": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/parameters/AntennaConfiguration"
+                                    }
+                                },
+                                "else": {
+                                    "$ref": "#/definitions/parameters/AntennaConfiguration"
+                                }
+                            },
+                            "ROReportSpec": {
+                                "$ref": "#/definitions/parameters/ROReportSpec"
+                            },
+                            "AccessReportSpec": {
+                                "$ref": "#/definitions/parameters/AccessReportSpec"
+                            },
+                            "KeepaliveSpec": {
+                                "$ref": "#/definitions/parameters/KeepaliveSpec"
+                            },
+                            "GPOWriteData": {
+                                "if": {
+                                    "type": "array"
+                                },
+                                "then": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/parameters/GPOWriteData"
+                                    }
+                                },
+                                "else": {
+                                    "$ref": "#/definitions/parameters/GPOWriteData"
+                                }
+                            },
+                            "GPIPortCurrentState": {
+                                "if": {
+                                    "type": "array"
+                                },
+                                "then": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/parameters/GPIPortCurrentState"
+                                    }
+                                },
+                                "else": {
+                                    "$ref": "#/definitions/parameters/GPIPortCurrentState"
+                                }
+                            },
+                            "EventsAndReports": {
+                                "$ref": "#/definitions/parameters/EventsAndReports"
+                            },
+                            "Custom": {
+                                "if": {
+                                    "type": "array"
+                                },
+                                "then": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/parameters/Custom"
+                                    }
+                                },
+                                "else": {
+                                    "$ref": "#/definitions/parameters/Custom"
+                                }
+                            }
+                        },
+                        "additionalProperties": false,
+                        "required": [
+                            "ResetToFactoryDefault"
+                        ]
+                    }
+                }
+            },
+            "SET_READER_CONFIG_RESPONSE": {
+                "properties": {
+                    "MessageType": {
+                        "const": "SET_READER_CONFIG_RESPONSE"
+                    },
+                    "MessageBody": {
+                        "properties": {
+                            "LLRPStatus": {
+                                "$ref": "#/definitions/parameters/LLRPStatus"
+                            }
+                        },
+                        "additionalProperties": false,
+                        "required": [
+                            "LLRPStatus"
+                        ]
+                    }
+                }
+            },
+            "CLOSE_CONNECTION": {
+                "properties": {
+                    "MessageType": {
+                        "const": "CLOSE_CONNECTION"
+                    },
+                    "MessageBody": {
+                        "properties": {},
+                        "additionalProperties": false
+                    }
+                }
+            },
+            "CLOSE_CONNECTION_RESPONSE": {
+                "properties": {
+                    "MessageType": {
+                        "const": "CLOSE_CONNECTION_RESPONSE"
+                    },
+                    "MessageBody": {
+                        "properties": {
+                            "LLRPStatus": {
+                                "$ref": "#/definitions/parameters/LLRPStatus"
+                            }
+                        },
+                        "additionalProperties": false,
+                        "required": [
+                            "LLRPStatus"
+                        ]
+                    }
+                }
+            },
+            "GET_REPORT": {
+                "properties": {
+                    "MessageType": {
+                        "const": "GET_REPORT"
+                    },
+                    "MessageBody": {
+                        "properties": {},
+                        "additionalProperties": false
+                    }
+                }
+            },
+            "RO_ACCESS_REPORT": {
+                "properties": {
+                    "MessageType": {
+                        "const": "RO_ACCESS_REPORT"
+                    },
+                    "MessageBody": {
+                        "properties": {
+                            "TagReportData": {
+                                "if": {
+                                    "type": "array"
+                                },
+                                "then": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/parameters/TagReportData"
+                                    }
+                                },
+                                "else": {
+                                    "$ref": "#/definitions/parameters/TagReportData"
+                                }
+                            },
+                            "RFSurveyReportData": {
+                                "if": {
+                                    "type": "array"
+                                },
+                                "then": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/parameters/RFSurveyReportData"
+                                    }
+                                },
+                                "else": {
+                                    "$ref": "#/definitions/parameters/RFSurveyReportData"
+                                }
+                            },
+                            "Custom": {
+                                "if": {
+                                    "type": "array"
+                                },
+                                "then": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/parameters/Custom"
+                                    }
+                                },
+                                "else": {
+                                    "$ref": "#/definitions/parameters/Custom"
+                                }
+                            }
+                        },
+                        "additionalProperties": false
+                    }
+                }
+            },
+            "KEEPALIVE": {
+                "properties": {
+                    "MessageType": {
+                        "const": "KEEPALIVE"
+                    },
+                    "MessageBody": {
+                        "properties": {},
+                        "additionalProperties": false
+                    }
+                }
+            },
+            "KEEPALIVE_ACK": {
+                "properties": {
+                    "MessageType": {
+                        "const": "KEEPALIVE_ACK"
+                    },
+                    "MessageBody": {
+                        "properties": {},
+                        "additionalProperties": false
+                    }
+                }
+            },
+            "READER_EVENT_NOTIFICATION": {
+                "properties": {
+                    "MessageType": {
+                        "const": "READER_EVENT_NOTIFICATION"
+                    },
+                    "MessageBody": {
+                        "properties": {
+                            "ReaderEventNotificationData": {
+                                "$ref": "#/definitions/parameters/ReaderEventNotificationData"
+                            }
+                        },
+                        "additionalProperties": false,
+                        "required": [
+                            "ReaderEventNotificationData"
+                        ]
+                    }
+                }
+            },
+            "ENABLE_EVENTS_AND_REPORTS": {
+                "properties": {
+                    "MessageType": {
+                        "const": "ENABLE_EVENTS_AND_REPORTS"
+                    },
+                    "MessageBody": {
+                        "properties": {},
+                        "additionalProperties": false
+                    }
+                }
+            },
+            "ERROR_MESSAGE": {
+                "properties": {
+                    "MessageType": {
+                        "const": "ERROR_MESSAGE"
+                    },
+                    "MessageBody": {
+                        "properties": {
+                            "LLRPStatus": {
+                                "$ref": "#/definitions/parameters/LLRPStatus"
+                            }
+                        },
+                        "additionalProperties": false,
+                        "required": [
+                            "LLRPStatus"
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    "type": "object",
+    "allOf": [
+        {
+            "$ref": "#/definitions/message"
+        },
+        {
+            "if": {
+                "properties": {
+                    "MessageType": {
+                        "const": "CUSTOM_MESSAGE"
+                    }
+                }
+            },
+            "then": {
+                "$ref": "#/definitions/messages/CUSTOM_MESSAGE"
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "MessageType": {
+                        "const": "GET_READER_CAPABILITIES"
+                    }
+                }
+            },
+            "then": {
+                "$ref": "#/definitions/messages/GET_READER_CAPABILITIES"
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "MessageType": {
+                        "const": "GET_READER_CAPABILITIES_RESPONSE"
+                    }
+                }
+            },
+            "then": {
+                "$ref": "#/definitions/messages/GET_READER_CAPABILITIES_RESPONSE"
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "MessageType": {
+                        "const": "ADD_ROSPEC"
+                    }
+                }
+            },
+            "then": {
+                "$ref": "#/definitions/messages/ADD_ROSPEC"
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "MessageType": {
+                        "const": "ADD_ROSPEC_RESPONSE"
+                    }
+                }
+            },
+            "then": {
+                "$ref": "#/definitions/messages/ADD_ROSPEC_RESPONSE"
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "MessageType": {
+                        "const": "DELETE_ROSPEC"
+                    }
+                }
+            },
+            "then": {
+                "$ref": "#/definitions/messages/DELETE_ROSPEC"
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "MessageType": {
+                        "const": "DELETE_ROSPEC_RESPONSE"
+                    }
+                }
+            },
+            "then": {
+                "$ref": "#/definitions/messages/DELETE_ROSPEC_RESPONSE"
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "MessageType": {
+                        "const": "START_ROSPEC"
+                    }
+                }
+            },
+            "then": {
+                "$ref": "#/definitions/messages/START_ROSPEC"
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "MessageType": {
+                        "const": "START_ROSPEC_RESPONSE"
+                    }
+                }
+            },
+            "then": {
+                "$ref": "#/definitions/messages/START_ROSPEC_RESPONSE"
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "MessageType": {
+                        "const": "STOP_ROSPEC"
+                    }
+                }
+            },
+            "then": {
+                "$ref": "#/definitions/messages/STOP_ROSPEC"
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "MessageType": {
+                        "const": "STOP_ROSPEC_RESPONSE"
+                    }
+                }
+            },
+            "then": {
+                "$ref": "#/definitions/messages/STOP_ROSPEC_RESPONSE"
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "MessageType": {
+                        "const": "ENABLE_ROSPEC"
+                    }
+                }
+            },
+            "then": {
+                "$ref": "#/definitions/messages/ENABLE_ROSPEC"
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "MessageType": {
+                        "const": "ENABLE_ROSPEC_RESPONSE"
+                    }
+                }
+            },
+            "then": {
+                "$ref": "#/definitions/messages/ENABLE_ROSPEC_RESPONSE"
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "MessageType": {
+                        "const": "DISABLE_ROSPEC"
+                    }
+                }
+            },
+            "then": {
+                "$ref": "#/definitions/messages/DISABLE_ROSPEC"
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "MessageType": {
+                        "const": "DISABLE_ROSPEC_RESPONSE"
+                    }
+                }
+            },
+            "then": {
+                "$ref": "#/definitions/messages/DISABLE_ROSPEC_RESPONSE"
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "MessageType": {
+                        "const": "GET_ROSPECS"
+                    }
+                }
+            },
+            "then": {
+                "$ref": "#/definitions/messages/GET_ROSPECS"
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "MessageType": {
+                        "const": "GET_ROSPECS_RESPONSE"
+                    }
+                }
+            },
+            "then": {
+                "$ref": "#/definitions/messages/GET_ROSPECS_RESPONSE"
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "MessageType": {
+                        "const": "ADD_ACCESSSPEC"
+                    }
+                }
+            },
+            "then": {
+                "$ref": "#/definitions/messages/ADD_ACCESSSPEC"
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "MessageType": {
+                        "const": "ADD_ACCESSSPEC_RESPONSE"
+                    }
+                }
+            },
+            "then": {
+                "$ref": "#/definitions/messages/ADD_ACCESSSPEC_RESPONSE"
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "MessageType": {
+                        "const": "DELETE_ACCESSSPEC"
+                    }
+                }
+            },
+            "then": {
+                "$ref": "#/definitions/messages/DELETE_ACCESSSPEC"
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "MessageType": {
+                        "const": "DELETE_ACCESSSPEC_RESPONSE"
+                    }
+                }
+            },
+            "then": {
+                "$ref": "#/definitions/messages/DELETE_ACCESSSPEC_RESPONSE"
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "MessageType": {
+                        "const": "ENABLE_ACCESSSPEC"
+                    }
+                }
+            },
+            "then": {
+                "$ref": "#/definitions/messages/ENABLE_ACCESSSPEC"
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "MessageType": {
+                        "const": "ENABLE_ACCESSSPEC_RESPONSE"
+                    }
+                }
+            },
+            "then": {
+                "$ref": "#/definitions/messages/ENABLE_ACCESSSPEC_RESPONSE"
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "MessageType": {
+                        "const": "DISABLE_ACCESSSPEC"
+                    }
+                }
+            },
+            "then": {
+                "$ref": "#/definitions/messages/DISABLE_ACCESSSPEC"
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "MessageType": {
+                        "const": "DISABLE_ACCESSSPEC_RESPONSE"
+                    }
+                }
+            },
+            "then": {
+                "$ref": "#/definitions/messages/DISABLE_ACCESSSPEC_RESPONSE"
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "MessageType": {
+                        "const": "GET_ACCESSSPECS"
+                    }
+                }
+            },
+            "then": {
+                "$ref": "#/definitions/messages/GET_ACCESSSPECS"
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "MessageType": {
+                        "const": "GET_ACCESSSPECS_RESPONSE"
+                    }
+                }
+            },
+            "then": {
+                "$ref": "#/definitions/messages/GET_ACCESSSPECS_RESPONSE"
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "MessageType": {
+                        "const": "GET_READER_CONFIG"
+                    }
+                }
+            },
+            "then": {
+                "$ref": "#/definitions/messages/GET_READER_CONFIG"
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "MessageType": {
+                        "const": "GET_READER_CONFIG_RESPONSE"
+                    }
+                }
+            },
+            "then": {
+                "$ref": "#/definitions/messages/GET_READER_CONFIG_RESPONSE"
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "MessageType": {
+                        "const": "SET_READER_CONFIG"
+                    }
+                }
+            },
+            "then": {
+                "$ref": "#/definitions/messages/SET_READER_CONFIG"
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "MessageType": {
+                        "const": "SET_READER_CONFIG_RESPONSE"
+                    }
+                }
+            },
+            "then": {
+                "$ref": "#/definitions/messages/SET_READER_CONFIG_RESPONSE"
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "MessageType": {
+                        "const": "CLOSE_CONNECTION"
+                    }
+                }
+            },
+            "then": {
+                "$ref": "#/definitions/messages/CLOSE_CONNECTION"
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "MessageType": {
+                        "const": "CLOSE_CONNECTION_RESPONSE"
+                    }
+                }
+            },
+            "then": {
+                "$ref": "#/definitions/messages/CLOSE_CONNECTION_RESPONSE"
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "MessageType": {
+                        "const": "GET_REPORT"
+                    }
+                }
+            },
+            "then": {
+                "$ref": "#/definitions/messages/GET_REPORT"
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "MessageType": {
+                        "const": "RO_ACCESS_REPORT"
+                    }
+                }
+            },
+            "then": {
+                "$ref": "#/definitions/messages/RO_ACCESS_REPORT"
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "MessageType": {
+                        "const": "KEEPALIVE"
+                    }
+                }
+            },
+            "then": {
+                "$ref": "#/definitions/messages/KEEPALIVE"
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "MessageType": {
+                        "const": "KEEPALIVE_ACK"
+                    }
+                }
+            },
+            "then": {
+                "$ref": "#/definitions/messages/KEEPALIVE_ACK"
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "MessageType": {
+                        "const": "READER_EVENT_NOTIFICATION"
+                    }
+                }
+            },
+            "then": {
+                "$ref": "#/definitions/messages/READER_EVENT_NOTIFICATION"
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "MessageType": {
+                        "const": "ENABLE_EVENTS_AND_REPORTS"
+                    }
+                }
+            },
+            "then": {
+                "$ref": "#/definitions/messages/ENABLE_EVENTS_AND_REPORTS"
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "MessageType": {
+                        "const": "ERROR_MESSAGE"
+                    }
+                }
+            },
+            "then": {
+                "$ref": "#/definitions/messages/ERROR_MESSAGE"
+            }
+        }
+    ]
+}
