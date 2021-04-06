@@ -132,9 +132,9 @@
             },
             "hexstring": {
                 "type": "string",
-                "minLength": 2,
+                "minLength": 0,
                 "maxLength": 131072,
-                "pattern": "^[a-fA-F0-9]+$"
+                "pattern": "^[a-fA-F0-9]+$|^(?![\\s\\S])"
             },
             "datetime": {
                 "type": "string",
@@ -147,10 +147,10 @@
         "message": {
             "type": "object",
             "properties": {
-                "MessageID": {
+                "id": {
                     "$ref": "#/definitions/types/u32"
                 },
-                "MessageType": {
+                "type": {
                     "type": "string",
                     "enum": [
                         "CUSTOM_MESSAGE",
@@ -195,14 +195,14 @@
                         "ERROR_MESSAGE"
                     ]
                 },
-                "MessageBody": {
+                "data": {
                     "type": "object"
                 }
             },
             "required": [
-                "MessageID",
-                "MessageType",
-                "MessageBody"
+                "id",
+                "type",
+                "data"
             ]
         },
         "parameters": {
@@ -518,7 +518,7 @@
                 ],
                 "allOf": [
                     {
-                        "oneOf": [
+                        "anyOf": [
                             {
                                 "required": [
                                     "C1G2UHFRFModeTable"
@@ -652,7 +652,7 @@
                 ],
                 "allOf": [
                     {
-                        "oneOf": [
+                        "anyOf": [
                             {
                                 "required": [
                                     "AISpec"
@@ -1124,7 +1124,7 @@
                 },
                 "allOf": [
                     {
-                        "oneOf": [
+                        "anyOf": [
                             {
                                 "required": [
                                     "C1G2TagSpec"
@@ -1133,7 +1133,7 @@
                         ]
                     },
                     {
-                        "oneOf": [
+                        "anyOf": [
                             {
                                 "required": [
                                     "C1G2Read"
@@ -1618,7 +1618,7 @@
                 },
                 "allOf": [
                     {
-                        "oneOf": [
+                        "anyOf": [
                             {
                                 "required": [
                                     "EPCData"
@@ -1859,7 +1859,7 @@
                 ],
                 "allOf": [
                     {
-                        "oneOf": [
+                        "anyOf": [
                             {
                                 "required": [
                                     "UTCTimestamp"
@@ -1970,7 +1970,7 @@
                 },
                 "allOf": [
                     {
-                        "oneOf": [
+                        "anyOf": [
                             {
                                 "required": [
                                     "UTCTimestamp"
@@ -3270,10 +3270,10 @@
         "messages": {
             "CUSTOM_MESSAGE": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "CUSTOM_MESSAGE"
                     },
-                    "MessageBody": {
+                    "data": {
                         "properties": {
                             "VendorIdentifier": {
                                 "$ref": "#/definitions/types/u32"
@@ -3296,10 +3296,10 @@
             },
             "GET_READER_CAPABILITIES": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "GET_READER_CAPABILITIES"
                     },
-                    "MessageBody": {
+                    "data": {
                         "properties": {
                             "RequestedData": {
                                 "$ref": "#/definitions/enumerations/GetReaderCapabilitiesRequestedData"
@@ -3328,10 +3328,10 @@
             },
             "GET_READER_CAPABILITIES_RESPONSE": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "GET_READER_CAPABILITIES_RESPONSE"
                     },
-                    "MessageBody": {
+                    "data": {
                         "properties": {
                             "LLRPStatus": {
                                 "$ref": "#/definitions/parameters/LLRPStatus"
@@ -3372,10 +3372,10 @@
             },
             "ADD_ROSPEC": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "ADD_ROSPEC"
                     },
-                    "MessageBody": {
+                    "data": {
                         "properties": {
                             "ROSpec": {
                                 "$ref": "#/definitions/parameters/ROSpec"
@@ -3390,10 +3390,10 @@
             },
             "ADD_ROSPEC_RESPONSE": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "ADD_ROSPEC_RESPONSE"
                     },
-                    "MessageBody": {
+                    "data": {
                         "properties": {
                             "LLRPStatus": {
                                 "$ref": "#/definitions/parameters/LLRPStatus"
@@ -3408,10 +3408,10 @@
             },
             "DELETE_ROSPEC": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "DELETE_ROSPEC"
                     },
-                    "MessageBody": {
+                    "data": {
                         "properties": {
                             "ROSpecID": {
                                 "$ref": "#/definitions/types/u32"
@@ -3426,10 +3426,10 @@
             },
             "DELETE_ROSPEC_RESPONSE": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "DELETE_ROSPEC_RESPONSE"
                     },
-                    "MessageBody": {
+                    "data": {
                         "properties": {
                             "LLRPStatus": {
                                 "$ref": "#/definitions/parameters/LLRPStatus"
@@ -3444,10 +3444,10 @@
             },
             "START_ROSPEC": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "START_ROSPEC"
                     },
-                    "MessageBody": {
+                    "data": {
                         "properties": {
                             "ROSpecID": {
                                 "$ref": "#/definitions/types/u32"
@@ -3462,10 +3462,10 @@
             },
             "START_ROSPEC_RESPONSE": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "START_ROSPEC_RESPONSE"
                     },
-                    "MessageBody": {
+                    "data": {
                         "properties": {
                             "LLRPStatus": {
                                 "$ref": "#/definitions/parameters/LLRPStatus"
@@ -3480,10 +3480,10 @@
             },
             "STOP_ROSPEC": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "STOP_ROSPEC"
                     },
-                    "MessageBody": {
+                    "data": {
                         "properties": {
                             "ROSpecID": {
                                 "$ref": "#/definitions/types/u32"
@@ -3498,10 +3498,10 @@
             },
             "STOP_ROSPEC_RESPONSE": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "STOP_ROSPEC_RESPONSE"
                     },
-                    "MessageBody": {
+                    "data": {
                         "properties": {
                             "LLRPStatus": {
                                 "$ref": "#/definitions/parameters/LLRPStatus"
@@ -3516,10 +3516,10 @@
             },
             "ENABLE_ROSPEC": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "ENABLE_ROSPEC"
                     },
-                    "MessageBody": {
+                    "data": {
                         "properties": {
                             "ROSpecID": {
                                 "$ref": "#/definitions/types/u32"
@@ -3534,10 +3534,10 @@
             },
             "ENABLE_ROSPEC_RESPONSE": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "ENABLE_ROSPEC_RESPONSE"
                     },
-                    "MessageBody": {
+                    "data": {
                         "properties": {
                             "LLRPStatus": {
                                 "$ref": "#/definitions/parameters/LLRPStatus"
@@ -3552,10 +3552,10 @@
             },
             "DISABLE_ROSPEC": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "DISABLE_ROSPEC"
                     },
-                    "MessageBody": {
+                    "data": {
                         "properties": {
                             "ROSpecID": {
                                 "$ref": "#/definitions/types/u32"
@@ -3570,10 +3570,10 @@
             },
             "DISABLE_ROSPEC_RESPONSE": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "DISABLE_ROSPEC_RESPONSE"
                     },
-                    "MessageBody": {
+                    "data": {
                         "properties": {
                             "LLRPStatus": {
                                 "$ref": "#/definitions/parameters/LLRPStatus"
@@ -3588,10 +3588,10 @@
             },
             "GET_ROSPECS": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "GET_ROSPECS"
                     },
-                    "MessageBody": {
+                    "data": {
                         "properties": {},
                         "additionalProperties": false
                     }
@@ -3599,10 +3599,10 @@
             },
             "GET_ROSPECS_RESPONSE": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "GET_ROSPECS_RESPONSE"
                     },
-                    "MessageBody": {
+                    "data": {
                         "properties": {
                             "LLRPStatus": {
                                 "$ref": "#/definitions/parameters/LLRPStatus"
@@ -3631,10 +3631,10 @@
             },
             "ADD_ACCESSSPEC": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "ADD_ACCESSSPEC"
                     },
-                    "MessageBody": {
+                    "data": {
                         "properties": {
                             "AccessSpec": {
                                 "$ref": "#/definitions/parameters/AccessSpec"
@@ -3649,10 +3649,10 @@
             },
             "ADD_ACCESSSPEC_RESPONSE": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "ADD_ACCESSSPEC_RESPONSE"
                     },
-                    "MessageBody": {
+                    "data": {
                         "properties": {
                             "LLRPStatus": {
                                 "$ref": "#/definitions/parameters/LLRPStatus"
@@ -3667,10 +3667,10 @@
             },
             "DELETE_ACCESSSPEC": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "DELETE_ACCESSSPEC"
                     },
-                    "MessageBody": {
+                    "data": {
                         "properties": {
                             "AccessSpecID": {
                                 "$ref": "#/definitions/types/u32"
@@ -3685,10 +3685,10 @@
             },
             "DELETE_ACCESSSPEC_RESPONSE": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "DELETE_ACCESSSPEC_RESPONSE"
                     },
-                    "MessageBody": {
+                    "data": {
                         "properties": {
                             "LLRPStatus": {
                                 "$ref": "#/definitions/parameters/LLRPStatus"
@@ -3703,10 +3703,10 @@
             },
             "ENABLE_ACCESSSPEC": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "ENABLE_ACCESSSPEC"
                     },
-                    "MessageBody": {
+                    "data": {
                         "properties": {
                             "AccessSpecID": {
                                 "$ref": "#/definitions/types/u32"
@@ -3721,10 +3721,10 @@
             },
             "ENABLE_ACCESSSPEC_RESPONSE": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "ENABLE_ACCESSSPEC_RESPONSE"
                     },
-                    "MessageBody": {
+                    "data": {
                         "properties": {
                             "LLRPStatus": {
                                 "$ref": "#/definitions/parameters/LLRPStatus"
@@ -3739,10 +3739,10 @@
             },
             "DISABLE_ACCESSSPEC": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "DISABLE_ACCESSSPEC"
                     },
-                    "MessageBody": {
+                    "data": {
                         "properties": {
                             "AccessSpecID": {
                                 "$ref": "#/definitions/types/u32"
@@ -3757,10 +3757,10 @@
             },
             "DISABLE_ACCESSSPEC_RESPONSE": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "DISABLE_ACCESSSPEC_RESPONSE"
                     },
-                    "MessageBody": {
+                    "data": {
                         "properties": {
                             "LLRPStatus": {
                                 "$ref": "#/definitions/parameters/LLRPStatus"
@@ -3775,10 +3775,10 @@
             },
             "GET_ACCESSSPECS": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "GET_ACCESSSPECS"
                     },
-                    "MessageBody": {
+                    "data": {
                         "properties": {},
                         "additionalProperties": false
                     }
@@ -3786,10 +3786,10 @@
             },
             "GET_ACCESSSPECS_RESPONSE": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "GET_ACCESSSPECS_RESPONSE"
                     },
-                    "MessageBody": {
+                    "data": {
                         "properties": {
                             "LLRPStatus": {
                                 "$ref": "#/definitions/parameters/LLRPStatus"
@@ -3818,10 +3818,10 @@
             },
             "GET_READER_CONFIG": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "GET_READER_CONFIG"
                     },
-                    "MessageBody": {
+                    "data": {
                         "properties": {
                             "AntennaID": {
                                 "$ref": "#/definitions/types/u16"
@@ -3862,10 +3862,10 @@
             },
             "GET_READER_CONFIG_RESPONSE": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "GET_READER_CONFIG_RESPONSE"
                     },
-                    "MessageBody": {
+                    "data": {
                         "properties": {
                             "LLRPStatus": {
                                 "$ref": "#/definitions/parameters/LLRPStatus"
@@ -3971,10 +3971,10 @@
             },
             "SET_READER_CONFIG": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "SET_READER_CONFIG"
                     },
-                    "MessageBody": {
+                    "data": {
                         "properties": {
                             "ResetToFactoryDefault": {
                                 "$ref": "#/definitions/types/u1"
@@ -4074,10 +4074,10 @@
             },
             "SET_READER_CONFIG_RESPONSE": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "SET_READER_CONFIG_RESPONSE"
                     },
-                    "MessageBody": {
+                    "data": {
                         "properties": {
                             "LLRPStatus": {
                                 "$ref": "#/definitions/parameters/LLRPStatus"
@@ -4092,10 +4092,10 @@
             },
             "CLOSE_CONNECTION": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "CLOSE_CONNECTION"
                     },
-                    "MessageBody": {
+                    "data": {
                         "properties": {},
                         "additionalProperties": false
                     }
@@ -4103,10 +4103,10 @@
             },
             "CLOSE_CONNECTION_RESPONSE": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "CLOSE_CONNECTION_RESPONSE"
                     },
-                    "MessageBody": {
+                    "data": {
                         "properties": {
                             "LLRPStatus": {
                                 "$ref": "#/definitions/parameters/LLRPStatus"
@@ -4121,10 +4121,10 @@
             },
             "GET_REPORT": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "GET_REPORT"
                     },
-                    "MessageBody": {
+                    "data": {
                         "properties": {},
                         "additionalProperties": false
                     }
@@ -4132,10 +4132,10 @@
             },
             "RO_ACCESS_REPORT": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "RO_ACCESS_REPORT"
                     },
-                    "MessageBody": {
+                    "data": {
                         "properties": {
                             "TagReportData": {
                                 "if": {
@@ -4186,10 +4186,10 @@
             },
             "KEEPALIVE": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "KEEPALIVE"
                     },
-                    "MessageBody": {
+                    "data": {
                         "properties": {},
                         "additionalProperties": false
                     }
@@ -4197,10 +4197,10 @@
             },
             "KEEPALIVE_ACK": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "KEEPALIVE_ACK"
                     },
-                    "MessageBody": {
+                    "data": {
                         "properties": {},
                         "additionalProperties": false
                     }
@@ -4208,10 +4208,10 @@
             },
             "READER_EVENT_NOTIFICATION": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "READER_EVENT_NOTIFICATION"
                     },
-                    "MessageBody": {
+                    "data": {
                         "properties": {
                             "ReaderEventNotificationData": {
                                 "$ref": "#/definitions/parameters/ReaderEventNotificationData"
@@ -4226,10 +4226,10 @@
             },
             "ENABLE_EVENTS_AND_REPORTS": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "ENABLE_EVENTS_AND_REPORTS"
                     },
-                    "MessageBody": {
+                    "data": {
                         "properties": {},
                         "additionalProperties": false
                     }
@@ -4237,10 +4237,10 @@
             },
             "ERROR_MESSAGE": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "ERROR_MESSAGE"
                     },
-                    "MessageBody": {
+                    "data": {
                         "properties": {
                             "LLRPStatus": {
                                 "$ref": "#/definitions/parameters/LLRPStatus"
@@ -4263,7 +4263,7 @@
         {
             "if": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "CUSTOM_MESSAGE"
                     }
                 }
@@ -4275,7 +4275,7 @@
         {
             "if": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "GET_READER_CAPABILITIES"
                     }
                 }
@@ -4287,7 +4287,7 @@
         {
             "if": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "GET_READER_CAPABILITIES_RESPONSE"
                     }
                 }
@@ -4299,7 +4299,7 @@
         {
             "if": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "ADD_ROSPEC"
                     }
                 }
@@ -4311,7 +4311,7 @@
         {
             "if": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "ADD_ROSPEC_RESPONSE"
                     }
                 }
@@ -4323,7 +4323,7 @@
         {
             "if": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "DELETE_ROSPEC"
                     }
                 }
@@ -4335,7 +4335,7 @@
         {
             "if": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "DELETE_ROSPEC_RESPONSE"
                     }
                 }
@@ -4347,7 +4347,7 @@
         {
             "if": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "START_ROSPEC"
                     }
                 }
@@ -4359,7 +4359,7 @@
         {
             "if": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "START_ROSPEC_RESPONSE"
                     }
                 }
@@ -4371,7 +4371,7 @@
         {
             "if": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "STOP_ROSPEC"
                     }
                 }
@@ -4383,7 +4383,7 @@
         {
             "if": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "STOP_ROSPEC_RESPONSE"
                     }
                 }
@@ -4395,7 +4395,7 @@
         {
             "if": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "ENABLE_ROSPEC"
                     }
                 }
@@ -4407,7 +4407,7 @@
         {
             "if": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "ENABLE_ROSPEC_RESPONSE"
                     }
                 }
@@ -4419,7 +4419,7 @@
         {
             "if": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "DISABLE_ROSPEC"
                     }
                 }
@@ -4431,7 +4431,7 @@
         {
             "if": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "DISABLE_ROSPEC_RESPONSE"
                     }
                 }
@@ -4443,7 +4443,7 @@
         {
             "if": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "GET_ROSPECS"
                     }
                 }
@@ -4455,7 +4455,7 @@
         {
             "if": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "GET_ROSPECS_RESPONSE"
                     }
                 }
@@ -4467,7 +4467,7 @@
         {
             "if": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "ADD_ACCESSSPEC"
                     }
                 }
@@ -4479,7 +4479,7 @@
         {
             "if": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "ADD_ACCESSSPEC_RESPONSE"
                     }
                 }
@@ -4491,7 +4491,7 @@
         {
             "if": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "DELETE_ACCESSSPEC"
                     }
                 }
@@ -4503,7 +4503,7 @@
         {
             "if": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "DELETE_ACCESSSPEC_RESPONSE"
                     }
                 }
@@ -4515,7 +4515,7 @@
         {
             "if": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "ENABLE_ACCESSSPEC"
                     }
                 }
@@ -4527,7 +4527,7 @@
         {
             "if": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "ENABLE_ACCESSSPEC_RESPONSE"
                     }
                 }
@@ -4539,7 +4539,7 @@
         {
             "if": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "DISABLE_ACCESSSPEC"
                     }
                 }
@@ -4551,7 +4551,7 @@
         {
             "if": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "DISABLE_ACCESSSPEC_RESPONSE"
                     }
                 }
@@ -4563,7 +4563,7 @@
         {
             "if": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "GET_ACCESSSPECS"
                     }
                 }
@@ -4575,7 +4575,7 @@
         {
             "if": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "GET_ACCESSSPECS_RESPONSE"
                     }
                 }
@@ -4587,7 +4587,7 @@
         {
             "if": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "GET_READER_CONFIG"
                     }
                 }
@@ -4599,7 +4599,7 @@
         {
             "if": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "GET_READER_CONFIG_RESPONSE"
                     }
                 }
@@ -4611,7 +4611,7 @@
         {
             "if": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "SET_READER_CONFIG"
                     }
                 }
@@ -4623,7 +4623,7 @@
         {
             "if": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "SET_READER_CONFIG_RESPONSE"
                     }
                 }
@@ -4635,7 +4635,7 @@
         {
             "if": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "CLOSE_CONNECTION"
                     }
                 }
@@ -4647,7 +4647,7 @@
         {
             "if": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "CLOSE_CONNECTION_RESPONSE"
                     }
                 }
@@ -4659,7 +4659,7 @@
         {
             "if": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "GET_REPORT"
                     }
                 }
@@ -4671,7 +4671,7 @@
         {
             "if": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "RO_ACCESS_REPORT"
                     }
                 }
@@ -4683,7 +4683,7 @@
         {
             "if": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "KEEPALIVE"
                     }
                 }
@@ -4695,7 +4695,7 @@
         {
             "if": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "KEEPALIVE_ACK"
                     }
                 }
@@ -4707,7 +4707,7 @@
         {
             "if": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "READER_EVENT_NOTIFICATION"
                     }
                 }
@@ -4719,7 +4719,7 @@
         {
             "if": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "ENABLE_EVENTS_AND_REPORTS"
                     }
                 }
@@ -4731,7 +4731,7 @@
         {
             "if": {
                 "properties": {
-                    "MessageType": {
+                    "type": {
                         "const": "ERROR_MESSAGE"
                     }
                 }
